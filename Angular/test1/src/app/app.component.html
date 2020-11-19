@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>HELLO</h1>
+  <button (click)="toggleShow()">toggle Show</button>
+
+  <app-card
+    *ngFor="let iterCard of cards, let idx= index"
+    [card]="iterCard"
+    [index]="idx"
+  ></app-card>
+
+  <div *ngIf="show; else Hidden">
+  <app-card
+    [card]="cards[0]"
+  ></app-card>
+  <app-card [card]="cards[1]"></app-card>
+  <app-card [card]="cards[2]"></app-card>
+  </div>
+
+
+  <ng-template #Hidden>
+    <p>card is hidden</p>
+  </ng-template>
+</div>

@@ -1,0 +1,22 @@
+<div class="card">
+  <h2 [ngStyle]="{color:card.title.length>5? 'green':'red'}">{{card.title}}</h2>
+  <button (click)="color='red'">red</button>
+  <button (click)="color='green'">green</button>
+  <p class="text" [ngClass]="{
+  red: color==='red',
+  green: color==='green'
+  }">{{num}}</p>
+  <p class="text"
+     [class.green]="color==='green'"
+     [class.red]="color==='red'"
+  >{{num}}</p>
+  <button [disabled]="isDisabled">{{btnState}}</button>
+  <button (click)="changeTitle()">Change title</button>
+  <button (click)="card.title='Title changed inline'">Change title inline</button>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum, placeat!</p>
+  <input type="text" (input)="onChange($event)" [value]="card.title">
+  <input type="text" #myInput (input)="onChangeNew(myInput.value)" [value]="card.title">
+  <input type="text" [(ngModel)]="card.title" (ngModelChange)="onModelChange()">
+
+  <p>{{date | date:'dd.MMMM.yy':null:'ru'}}</p>
+</div>

@@ -1,0 +1,23 @@
+.card {
+  padding: 10px;
+  margin: 10px;
+  border: dashed;
+
+  h2 {
+    color: burlywood;
+  }
+
+  p {
+    padding: 10px;
+  }
+}
+
+.text {
+  &.green {
+    color: green;
+  }
+
+  &.red {
+    color: red;
+  }
+}
