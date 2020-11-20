@@ -11,7 +11,7 @@ function reducer(state = INITIAL_STATE, action) {
         case 'increase':
             return {score: action.value + state.score}
         case 'decrease':
-            return {score: state.score + action.value}
+            return {score: state.score - action.value}
         default:
             return state
     }

@@ -1,4 +1,4 @@
-console.log('creation patterns--------https://youtu.be/YJVj4XNASDk---------------------------------')
+console.log('patterns--------https://youtu.be/YJVj4XNASDk---------------------------------')
 
 console.log('constructor-------')
 // // class Car {
@@ -54,13 +54,11 @@ console.log('factory-----------')
 // // member3=factory.create('stan')
 // // console.log(member1,member2,member3)
 
- console.log('prototype---------')
+console.log('prototype---------')
 // // let animal={legs:true}
 // // let rabbit=Object.create(animal,{run:{value:true}})
 // // console.log(rabbit,rabbit.__proto__)//
 
-
-console.log('structural patterns-------------------------------------------------------------------')
 
 console.log('adapter адаптирует интерфейсы------')
 // // class OldCalc {
@@ -129,9 +127,6 @@ console.log('кэширующий декоратор --------------')
 //
 // f = makeCaching(f);
 
-
-console.log('behaviour patterns--------------------------------------------------------------------')
-
 console.log('chain_of_responsibility----------')
 // // class MySum {
 // //     constructor(val=42) {
@@ -185,3 +180,55 @@ console.log('chain_of_responsibility----------')
 // //
 // // console.log(observer1.state,observer2.state,observer3.state)
 
+console.log('observer (обозреватель) мы создаем один обсервер и потом в нескольких местах подписываемся на события ' +
+    'этого обсервера с помощью subscribe. Поэтому когда мы вызовем observer.broadcast, то это уведомит' +
+    'всех подписчиков.------------------------')
+
+class EventObserver {
+    constructor() {
+        this.observers = []  //массив подписчиков (массив функций которые вызываются при срабатывании метода broadcast)
+    }
+
+    subscribe(fn) {
+        this.observers.push(fn)
+    }
+
+    unsubscribe(fn) {
+        this.observers = this.observers.filter(subscriber => subscriber !== fn)
+    }
+
+    broadcast(data) {
+        this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
+                                                            // передавая ей в параметры данные из параметров метода broadcast
+    }
+}
+
+const blogObserver = new EventObserver()
+
+const textField = document.querySelector('.textField')
+const countField = document.querySelector('.countField')
+const countField2 = document.querySelector('.countField2')
+
+blogObserver.subscribe(text => {
+    console.log('broadcast catched', text)
+})
+
+blogObserver.subscribe(text=>{
+    countField.innerHTML=getWordsCount(text)
+})
+
+blogObserver.subscribe(text=>{
+    countField2.innerHTML=getSymbolsCount(text)
+})
+
+textField.addEventListener('keyup', () => {
+    blogObserver.broadcast(textField.value)
+})
+
+function getWordsCount(text) {
+    return text ? text.trim().split(/\s+/).length : 0
+}
+
+function getSymbolsCount(text) {
+    return text ? text.split('').length : 0
+}
