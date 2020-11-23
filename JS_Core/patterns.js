@@ -197,7 +197,7 @@ class EventObserver {
         this.observers = this.observers.filter(subscriber => subscriber !== fn)
     }
 
-    broadcast(data) {
+    dispatch(data) {
         this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
                                                             // передавая ей в параметры данные из параметров метода broadcast
     }
@@ -222,7 +222,7 @@ blogObserver.subscribe(text=>{
 })
 
 textField.addEventListener('keyup', () => {
-    blogObserver.broadcast(textField.value)
+    blogObserver.dispatch(textField.value)
 })
 
 function getWordsCount(text) {
