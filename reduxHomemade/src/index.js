@@ -1,6 +1,7 @@
 import './styles.css'
 import {createStore} from "./createStore";
 import {rootReducer} from "./myRedux/rootReducer";
+import {decrement, increment} from "../actions";
 
 let counter = document.getElementById('counter')
 let addBtn = document.getElementById('add')
@@ -24,10 +25,10 @@ store.subscribe(() => {
 
 // вызываем функции подписчики, и передаем тип экшена чтобы rootReducer изменил store
 addBtn.addEventListener('click', () => {
-    store.dispatch({type: 'increment'})
+    store.dispatch(increment()) //можно просто store.dispatch({type:'INCREMENT'})
 })
 subBtn.addEventListener('click', () => {
-    store.dispatch({type: 'decrement'})
+    store.dispatch(decrement())
 
 })
 

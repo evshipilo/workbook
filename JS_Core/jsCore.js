@@ -455,3 +455,17 @@ console.log('Деструктуризация-----------------------------------
 // console.log(firstName,age,car,town,country)
 
 
+
+
+
+//  функция groupBy из Lodash
+// function groupBy(array, prop) {
+//     let obj = {}
+//     array.forEach(it => {
+//         let key = prop instanceof Function ? prop(it).toString() : it[prop].toString()
+//         key in obj ? obj[key].push(it) : obj[key] = [it]
+//     })
+//     return obj
+// }
+//
+// groupBy([1.2, 1.3, 4.2, 5.6, 4.6], Math.floor)
