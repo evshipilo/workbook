@@ -16,6 +16,7 @@ console.log('замыкание — это способность функции
 // console.log(counter());//2
 // console.log(counter());//3
 
+
 console.log('Область видимости — это место, где (или откуда)' +
     ' мы имеем доступ к переменным или функциям. JS имеем три типа областей видимости:' +
     ' глобальная, функциональная и блочная (ES6).' +
@@ -26,14 +27,13 @@ console.log('Область видимости — это место, где (и
 
 // let cc=500
 // function out() {
-//     let aa = 100
 //
-//     function inn() {
+//        function inn() {
 //         let bb = 200
 //         console.log(aa, bb, cc) //300 200 600
 //     }
 //
-//     aa = 300
+//     let aa = 300
 //     inn()
 // }
 //
@@ -71,15 +71,16 @@ console.log("карринг Каррирование – это трансфор
 
 // function curry(func) {
 //
-//     return function curried(...args) {
-//         if (args.length >= func.length) {
-//             return func.apply(this, args);
+//     return function curried(...args) {   //возвращаем функцию curried с некоторым набором аргументов
+//         if (args.length >= func.length) {  //если количество переданных аргументов >= количеству аргументов каррируемой функции
+//             return func.apply(this, args); //то вызываем func с этими аргументами и всё
 //         } else {
-//             return function(...args2) {
-//                 return curried.apply(this, args.concat(args2));
-//             }
+//             return function(...args2) {    // иначе возвращаем новую функцию с некоторым набором аргументов
+//                 return curried.apply(this, args.concat(args2)); // кторая рекурсивно вызывает функцию curried с обьединённым набором аргументов
+//                          // и так далее пока не выполнится первое условие
+//            }
 //         }
-//     };
+//     }
 // }
 //
 // function sum(a, b, c) {
@@ -106,7 +107,7 @@ console.log("this- это обьект перед точкой который и
 //         console.log("-> ", this.name);
 //     }
 // }
-// obj.show();//show
+// obj.show();//Tor
 //
 // function f() {
 //     console.log("-> ", this.name);
@@ -114,7 +115,7 @@ console.log("this- это обьект перед точкой который и
 //
 // obj.f = f;
 //
-// obj.f();//show
+// obj.f();//Tor
 //
 // let show = obj.show;//нет привязки
 // show();//undefined
@@ -129,8 +130,8 @@ console.log("this- это обьект перед точкой который и
 // }
 //
 //  obj.show = obj1.show1();//show1 вызвана для obj1 this===obj1 возвращаемая срел ф пролучает this из лексич окружения >> для нее теперь всегда this===obj1
-//  let show1 = obj1.show1();
-// show1();//SURPRISE
+//  let show7 = obj1.show1();
+// show7();//SURPRISE
 // obj.show();//SURPRISE
 
 console.log('repeat() polyfill-----------------------------------------');
@@ -163,7 +164,7 @@ console.log('filter() polyfill-----------------------------------------');
 // Array.prototype.myFilter=function(callback){
 //     let result=[]
 //     this.forEach(item=>{
-//         if(callback(item))result.push(item)
+//         if(callback(item)) result.push(item)
 //     })
 //     return result
 // }
@@ -172,7 +173,7 @@ console.log('filter() polyfill-----------------------------------------');
 // console.log(res)
 
 console.log('reduce() polyfill-----------------------------------------');
-// Array.prototype.myReduce=function(callback,initial){
+// Array.prototype.myReduce=function(callback,initial=null){
 //     let result=initial
 //     this.forEach(item=>{
 //         result=callback(result,item)
@@ -226,7 +227,7 @@ console.log('create-- polyfill---------------------------------');
 //
 // console.log(rabbit.leg);//true
 
-console.log('__proto__ работаем как с обычным свойством--------------------------');
+console.log('__proto__ работаем как с обычным свойством, если не находим свойства в обьекте то ищем в __proto__ -----');
 // let animal={
 //     legs: true
 // }
@@ -241,26 +242,28 @@ console.log('__proto__ работаем как с обычным свойств�
 // wildRabbit.__proto__=rabbit;
 // wildRabbit.__proto__.tail='short'
 //
-// console.log(wildRabbit.legs,wildRabbit.ears,wildRabbit.strong,wildRabbit.tail)//true long true short
+// console.log(wildRabbit.legs,wildRabbit.ears,wildRabbit.strong,wildRabbit.tail,wildRabbit.__proto__.tail)//true long true short short
 // console.log(wildRabbit.__proto__);//rabbit
 // console.log(wildRabbit.__proto__.__proto__);//animal
 // console.log(wildRabbit.__proto__.__proto__.__proto__);//Object
 
-console.log('prototype --------------------------');
-let animal = {
-    legs: true
-}
+console.log('prototype -----------------------------------------');
+// let animal = {
+//     legs: true
+// }
+//
+// function Rabbit(name) {
+//     this.name = name;
+// }
+//
+// Rabbit.prototype = animal;//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ обьект animal
+// Rabbit.prototype.gotLegs=function(){return this.legs} //когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство gotLegs
+// Rabbit.prototype.nose=true//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство nose:true
+// let rabbit = new Rabbit('billy');
+// console.log('---->>>>',rabbit.legs, rabbit.name, rabbit.nose , rabbit.gotLegs(), rabbit.__proto__);//true billy true true  { legs: true, gotLegs: [Function (anonymous)], nose: true }
 
-function Rabbit(name) {
-    this.name = name;
-}
 
-Rabbit.prototype = animal;//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ обьект animal
-Rabbit.prototype.nose=true//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство nose:true
-let rabbit = new Rabbit('billy');
-console.log('---->>>>',rabbit.legs, rabbit.name, rabbit.nose);//true billy true
-
-console.log('promise------------------------------');
+console.log('promise---------------------------------------------');
 
 // prom = (a) => new Promise(resolve => {
 //     setTimeout(
@@ -353,23 +356,6 @@ console.log('objects & primitives -----------------------')
 // b=3
 // console.log(a)//2
 
-console.log('create object new ---------------------------')
-// function User(name) {
-// this.name=name
-//     this.say=function () {
-//         console.log(this.name)
-//     }
-// }
-//
-// User.prototype={son:true} //сначала в __proto__ записываем обьект
-// User.prototype.car=true // потом в этот обьект свойство car
-// User.prototype={bike:'ggg'}
-//
-// let admin=new User('pit')
-// console.log(admin.name);
-// admin.say()
-// console.log(admin.__proto__)
-
 console.log('Object.keys, values, entries-------------')
 // let user={
 //     name: 'pit',
@@ -455,10 +441,7 @@ console.log('Деструктуризация-----------------------------------
 // console.log(firstName,age,car,town,country)
 
 
-
-
-
-//  функция groupBy из Lodash
+console.log('функция groupBy из Lodash')
 // function groupBy(array, prop) {
 //     let obj = {}
 //     array.forEach(it => {
@@ -469,3 +452,83 @@ console.log('Деструктуризация-----------------------------------
 // }
 //
 // groupBy([1.2, 1.3, 4.2, 5.6, 4.6], Math.floor)
+
+console.log('глубина вложенности массива-----------------------------')
+// let array = [1, [[[[]]]], [1, 2, 3, [1, [[[[[[]]]]]]]], 3, [2]]
+//
+// let a = 0
+//
+// function getDeep(array) {
+//     if (array.some(it => Array.isArray(it))) {
+//         a++
+//         getDeep(array.flat())
+//     }
+//     return a
+// }
+//
+// console.log(getDeep(array))   //8
+
+console.log('classes----------------------------------')
+
+class Animal {
+    static breath = true  // публичное статическое поле можно вызвать только для класса
+    #priv = 0 //приватное свойство используется только внутри класса, нельзя обьявить в конструкторе
+        [`Field${priv}`] = 'prefixed field';  //название может вычисляться
+    #privMethod() {
+        console.log('private')
+    }
+
+
+    constructor(legs, blood) {
+        this.voice = 'lfskdjf' + this.#priv
+        this.legs = legs
+        this.blood = blood
+        this.say = function () {      //метод в обьекте
+            console.log('ddddddddd')
+        }
+    }
+
+    jump = true  // публичное статическое поле будет в обьекте
+
+    run(num) {     //метод записывается в __proto__
+        if (this.legs) {
+            console.log(`run with ${num} legs`)
+        }
+        this.#privMethod()
+    }
+
+    get legss() {  //обращаемся как к свойству
+        return this.legs ? 'yes' : 'no'
+    }
+
+    set legss(bool) { //обращаемся как к свойству
+        this.legs = bool
+    }
+}
+
+
+let cat = new Animal(true, 'red')
+console.log(cat)
+cat.legss = false
+console.log(cat.legss)  //no
+
+class Dog extends Animal {
+    static breath = false
+
+    constructor(legs, isWoof) {  //дополняем конструктор
+        super(legs, 'red')  //вызываем родительский конструктор
+        this.isWoof = isWoof
+    }
+
+    run() {     //переопределяем метод
+        super.run(4) //можем вызвать родительский метод
+        console.log(`new`)
+
+    }
+}
+
+console.log('>>>>', Dog.breath)
+console.log(new Dog(true, true))
+new Dog(true, true).run()
+
+

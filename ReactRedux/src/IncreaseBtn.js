@@ -5,8 +5,8 @@ import {increaseScore} from "./store";
 export default function IncreaseBtn() {
     const dispatch=useDispatch()
 return(
-    <button onClick={()=>dispatch(increaseScore())}>
-        +
+    <button onClick={()=>dispatch(increaseScore(2))}>
+        +2
     </button>
 )
 }

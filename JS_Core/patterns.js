@@ -115,12 +115,12 @@ console.log('decorator декорирует обьект---------')
 console.log('кэширующий декоратор --------------')
 // function makeCaching(f) {
 //     let cache = {}
-//     return function () {
-//         if (arguments[0] in cache) {
-//             return cache[arguments[0]]
+//     return function (a) {
+//         if (a in cache) {
+//             return cache[a]
 //         } else {
-//             cache[arguments[0]] = f(arguments[0]);
-//             return cache[arguments[0]];
+//             cache[a] = f(a);
+//             return cache[a];
 //         }
 //     }
 // }
@@ -181,54 +181,54 @@ console.log('chain_of_responsibility----------')
 // // console.log(observer1.state,observer2.state,observer3.state)
 
 console.log('observer (обозреватель) мы создаем один обсервер и потом в нескольких местах подписываемся на события ' +
-    'этого обсервера с помощью subscribe. Поэтому когда мы вызовем observer.broadcast, то это уведомит' +
+    'этого обсервера с помощью subscribe. Поэтому когда мы вызовем observer.dispatch, то это уведомит' +
     'всех подписчиков.------------------------')
 
-class EventObserver {
-    constructor() {
-        this.observers = []  //массив подписчиков (массив функций которые вызываются при срабатывании метода broadcast)
-    }
-
-    subscribe(fn) {
-        this.observers.push(fn)
-    }
-
-    unsubscribe(fn) {
-        this.observers = this.observers.filter(subscriber => subscriber !== fn)
-    }
-
-    dispatch(data) {
-        this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
-                                                            // передавая ей в параметры данные из параметров метода broadcast
-    }
-}
-
-const blogObserver = new EventObserver()
-
-const textField = document.querySelector('.textField')
-const countField = document.querySelector('.countField')
-const countField2 = document.querySelector('.countField2')
-
-blogObserver.subscribe(text => {
-    console.log('broadcast catched', text)
-})
-
-blogObserver.subscribe(text=>{
-    countField.innerHTML=getWordsCount(text)
-})
-
-blogObserver.subscribe(text=>{
-    countField2.innerHTML=getSymbolsCount(text)
-})
-
-textField.addEventListener('keyup', () => {
-    blogObserver.dispatch(textField.value)
-})
-
-function getWordsCount(text) {
-    return text ? text.trim().split(/\s+/).length : 0
-}
-
-function getSymbolsCount(text) {
-    return text ? text.split('').length : 0
-}
+// class EventObserver {
+//     constructor() {
+//         this.observers = []  //массив подписчиков (массив функций которые вызываются при срабатывании метода dispatch)
+//     }
+//
+//     subscribe(fn) {
+//         this.observers.push(fn)
+//     }
+//
+//     unsubscribe(fn) {
+//         this.observers = this.observers.filter(subscriber => subscriber !== fn)
+//     }
+//
+//     dispatch(data) {
+//         this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
+//                                                             // передавая ей в параметры данные из параметров метода broadcast
+//     }
+// }
+//
+// const blogObserver = new EventObserver()
+//
+// const textField = document.querySelector('.textField')
+// const countField = document.querySelector('.countField')
+// const countField2 = document.querySelector('.countField2')
+//
+// blogObserver.subscribe(text => {
+//     console.log('broadcast catched', text)
+// })
+//
+// blogObserver.subscribe(text=>{
+//     countField.innerHTML=getWordsCount(text)
+// })
+//
+// blogObserver.subscribe(text=>{
+//     countField2.innerHTML=getSymbolsCount(text)
+// })
+//
+// textField.addEventListener('keyup', () => {
+//     blogObserver.dispatch(textField.value)
+// })
+//
+// function getWordsCount(text) {
+//     return text ? text.trim().split(/\s+/).length : 0
+// }
+//
+// function getSymbolsCount(text) {
+//     return text ? text.split('').length : 0
+// }
