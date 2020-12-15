@@ -199,7 +199,7 @@ console.log('observer (обозреватель) мы создаем один о
 //
 //     dispatch(data) {
 //         this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
-//                                                             // передавая ей в параметры данные из параметров метода broadcast
+//                                                             // передавая ей в параметры данные из параметров метода dispatch
 //     }
 // }
 //

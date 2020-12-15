@@ -181,7 +181,7 @@ console.log('reduce() polyfill-----------------------------------------');
 //     return result
 // }
 // let res = [1,2,3,4,5].myReduce((accum,item)=>accum+item,10)
-// console.log('res',res)
+// console.log('res',res)  //25
 
 
 console.log('newF()===F---------------------------------------');
@@ -415,6 +415,16 @@ console.log('остаточные ...rest параметры (получаем �
 // console.log(sum(...arr1));
 // console.log(sum(...arr2));
 
+// let firstObject = {a: 1, b: 2};
+// let secondObject = {...firstObject, c: 3, d: 4};
+// console.log(secondObject); // { a: 1, b: 2, c: 3, d: 4 }
+
+// let firstArray = ["A", "B", "C"];
+// let secondArray = ["X", ...firstArray, "Y", "Z"];
+
+// let myArray = [1, 2, 3, 4, 5];
+// let [a, b, c, ...d] = myArray;   //деструктуризвция
+
 console.log('Деструктуризация----------------------------------------------')
 // let arr=[undefined,2,3,4,5,6,7,8,9,0]
 // const [a='cool', ,b, ,...rest]=arr
@@ -438,7 +448,7 @@ console.log('Деструктуризация-----------------------------------
 //         country
 //     }
 // }=person
-// console.log(firstName,age,car,town,country)
+// console.log(firstName,age,car,town,country)  //pit, 32,  no car, Moscow, Russia
 
 
 console.log('функция groupBy из Lodash')
@@ -470,65 +480,65 @@ console.log('глубина вложенности массива---------------
 
 console.log('classes----------------------------------')
 
-class Animal {
-    static breath = true  // публичное статическое поле можно вызвать только для класса
-    #priv = 0 //приватное свойство используется только внутри класса, нельзя обьявить в конструкторе
-        [`Field${priv}`] = 'prefixed field';  //название может вычисляться
-    #privMethod() {
-        console.log('private')
-    }
-
-
-    constructor(legs, blood) {
-        this.voice = 'lfskdjf' + this.#priv
-        this.legs = legs
-        this.blood = blood
-        this.say = function () {      //метод в обьекте
-            console.log('ddddddddd')
-        }
-    }
-
-    jump = true  // публичное статическое поле будет в обьекте
-
-    run(num) {     //метод записывается в __proto__
-        if (this.legs) {
-            console.log(`run with ${num} legs`)
-        }
-        this.#privMethod()
-    }
-
-    get legss() {  //обращаемся как к свойству
-        return this.legs ? 'yes' : 'no'
-    }
-
-    set legss(bool) { //обращаемся как к свойству
-        this.legs = bool
-    }
-}
-
-
-let cat = new Animal(true, 'red')
-console.log(cat)
-cat.legss = false
-console.log(cat.legss)  //no
-
-class Dog extends Animal {
-    static breath = false
-
-    constructor(legs, isWoof) {  //дополняем конструктор
-        super(legs, 'red')  //вызываем родительский конструктор
-        this.isWoof = isWoof
-    }
-
-    run() {     //переопределяем метод
-        super.run(4) //можем вызвать родительский метод
-        console.log(`new`)
-
-    }
-}
-
-console.log('>>>>', Dog.breath)
-console.log(new Dog(true, true))
-new Dog(true, true).run()
-
+// class Animal {
+//     static breath = true  // публичное статическое поле можно вызвать только для класса
+//     #priv = 0 //приватное свойство используется только внутри класса, нельзя обьявить в конструкторе
+//         [`Field${priv}`] = 'prefixed field';  //название может вычисляться
+//     static #privMethod() {
+//         console.log('private')
+//     }
+//
+//
+//     constructor(legs, blood) {
+//         this.voice = 'lfskdjf' + this.#priv
+//         this.legs = legs
+//         this.blood = blood
+//         this.say = function () {      //метод в обьекте
+//             console.log('ddddddddd')
+//         }
+//     }
+//
+//     jump = true  // публичное статическое поле будет в обьекте
+//
+//     run(num) {     //метод записывается в __proto__
+//         if (this.legs) {
+//             console.log(`run with ${num} legs`)
+//         }
+//         this.#privMethod()
+//     }
+//
+//     get legss() {  //обращаемся как к свойству
+//         return this.legs ? 'yes' : 'no'
+//     }
+//
+//     set legss(bool) { //обращаемся как к свойству
+//         this.legs = bool
+//     }
+// }
+//
+//
+// let cat = new Animal(true, 'red')
+// console.log(cat)
+// cat.legss = false
+// console.log(cat.legss)  //no
+//
+// class Dog extends Animal {
+//     static breath = false
+//
+//     constructor(legs, isWoof) {  //дополняем конструктор
+//         super(legs, 'red')  //вызываем родительский конструктор
+//         this.isWoof = isWoof
+//     }
+//
+//     run() {     //переопределяем метод
+//         super.run(4) //можем вызвать родительский метод
+//         console.log(`new`)
+//
+//     }
+// }
+//
+// console.log('>>>>', Dog.breath)
+// console.log(new Dog(true, true))
+// new Dog(true, true).run()
+//
 
