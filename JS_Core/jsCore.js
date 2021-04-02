@@ -715,13 +715,42 @@ console.log('Debouncing (функция не запускается пока в�
 // console.log(long())
 // console.log(debounced())
 
+console.log('REDUX --------------------------------')
 
-
-
-for (var s = 0; s < 5; s++) {
-  let g = s
-  setTimeout(function () {
-    console.log(g);
-  }, 1000)
-}
+// function CreateStore() {
+//   const subscribers = []
+//   let state = {}
+//
+//   function reducer(state, action) {
+//     if (action.type === 'change') {
+//       return {...state, text: action.payload}
+//     }
+//     return state
+//   }
+//
+//   return {
+//     subscribe(callback) {
+//       subscribers.push(callback)
+//     },
+//     dispatch(action) {
+//       state = reducer(state, action)
+//       subscribers.forEach(subscriber => subscriber())
+//     },
+//     getState() {
+//       return state
+//     }
+//   }
+// }
+//
+// const store = CreateStore()
+// const textField = document.querySelector('.textField')
+// const countField = document.querySelector('.countField')
+//
+// textField.addEventListener('keyup', () => {
+//   store.dispatch({type: 'change', payload: textField.value})
+// })
+//
+// store.subscribe(() => {
+//   countField.innerHTML = store.getState().text.length
+// })
 
