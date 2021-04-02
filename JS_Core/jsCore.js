@@ -754,3 +754,27 @@ console.log('REDUX --------------------------------')
 //   countField.innerHTML = store.getState().text.length
 // })
 
+console.log('Observer -----------------------')
+
+// function createObserver() {
+//   const subscribers = []
+//
+//   return {
+//     subscribe(callback) {
+//       subscribers.push(callback)
+//     },
+//     dispatch(data) {
+//       subscribers.forEach(subscriber => subscriber(data))
+//     }
+//   }
+// }
+//
+// const observer = createObserver()
+// const textField = document.querySelector('.textField')
+// const countField = document.querySelector('.countField')
+// textField.addEventListener('keyup', () => {
+//   observer.dispatch(textField.value)
+// })
+// observer.subscribe((data) => {
+//   countField.innerHTML = data.length
+// })
