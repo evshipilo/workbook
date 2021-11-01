@@ -1,64 +1,68 @@
 console.log('замыкание — это способность функции во время создания запоминать лексическое окружение' +
-  ' ссылки на переменные и параметры, находящиеся в текущей области видимости' +
-  ' и во внешних областях видимости' +
-  ' ------------------------nodemon interview.js-----------------');
-// function counterInit(increment) {
-//     let count = 0;
-//     return function () {
-//         count=count+increment;
-//         return count;
-//     }
-// }
+	' ссылки на переменные и параметры, находящиеся в текущей области видимости' +
+	' и во внешних областях видимости' +
+	'Все функции «при рождении» получают скрытое свойство [[Environment]], ' +
+	'которое ссылается на лексическое окружение места, где они были созданы.' +
+	'Лексическое окружение - обьект в котором содержаться локальные переменные и ссылка на внешнее лексическое окружение' +
+	'В стек вызоаов попадают контексты выполнения функций, которые состоят из значения this и лексического окружения.' +
+	' ------------------------nodemon interview.js-----------------');
+//function counterInit(increment) {
+//    let count = 0;
+//    return function () {
+//        count=count+increment;
+//        return count;
+//    }
+//}
 //
-// let counter=counterInit(1);
-// //console.log(count);//ReferenceError
-// console.log(counter());//1
-// console.log(counter());//2
-// console.log(counter());//3
+//let counter=counterInit(1);
+////console.log(count);//ReferenceError
+//console.log(counter());//1
+//console.log(counter());//2
+//console.log(counter());//3
 
+console.log('Область видимости — это место, откуда' +
+	' мы имеем доступ к переменным или функциям. JS имеем три типа областей видимости:' +
+	' глобальная, функциональная и блочная (ES6).' +
+	' для функции область видимости смотрим по месту обьявления функции.' +
+	' функция навсегда запоминает ссылку на лексическое окружение,' +
+	' где она была создана.' +
+	' получаем свежие значения переменных------------')
 
-console.log('Область видимости — это место, где (или откуда)' +
-  ' мы имеем доступ к переменным или функциям. JS имеем три типа областей видимости:' +
-  ' глобальная, функциональная и блочная (ES6).' +
-  ' для функции область видимости смотрим по месту обьявления функции.' +
-  ' функция навсегда запоминает ссылку на лексическое окружение,' +
-  ' где она была создана.' +
-  ' получаем свежие значения переменных------------')
-
-// let cc=500
-// function out() {
+//let cc=500
+//function out() {
+//  let aa = 300
 //
-//        function inn() {
-//         let bb = 200
-//         console.log(aa, bb, cc) //300 200 600
-//     }
+//       function inn() {
+//        let bb = 200
+//        console.log(aa, bb, cc)
+//    }
 //
-//     let aa = 300
-//     inn()
-// }
+//    aa=350
+//    inn()
+//}
 //
-// let aa = 1, bb = 2
-// cc=600
-// out()
+//let aa = 1, bb = 2
+//cc=600
+//out()
 //
-// let globalVar = 'global'
-// let outerVar = 'outer'
 //
-// function outerFunc(outerParam) {
-//     function innerFunc(innerParam) {
-//         console.log(globalVar, outerParam, innerParam)//guess outer inner
-//     }
-//     return innerFunc
-// }
+//let globalVar = 'global'
+//let outerVar = 'outer'
 //
-// const x = outerFunc(outerVar)
-// outerVar = 'outer-2'
-// globalVar = 'guess'
-// x('inner')
-
+//function outerFunc(outerParam) {
+//    function innerFunc(innerParam) {
+//        console.log(globalVar, outerParam, innerParam)//guess outer inner
+//    }
+//    return innerFunc
+//}
+//
+//const x = outerFunc(outerVar)
+//outerVar = 'outer-2'
+//globalVar = 'guess'
+//x('inner')
 
 console.log("карринг Каррирование – это трансформация функций таким образом," +
-  " чтобы они принимали аргументы не как f(a, b, c), а как f(a)(b)(c)-------");
+	" чтобы они принимали аргументы не как f(a, b, c), а как f(a)(b)(c)-------");
 // function out(a) {
 //     return function (b) {
 //         return a * b;
@@ -93,59 +97,74 @@ console.log("карринг Каррирование – это трансфор
 // console.log( curriedSum(1)(2,3) ); // 6, каррирование первого аргумента
 // console.log( curriedSum(1)(2)(3) ); // 6, каррирование всех аргументов
 
-console.log("Для доступа к информации внутри объекта метод может использовать ключевое слово this." +
-  "this- это обьект перед точкой который используется для вызова метода" +
-  ' this ссылается на значение объекта, который в данный момент выполняет или вызывает функцию.' +
-  ' «В данный момент» означает, что значение this меняется в зависимости от контекста выполнения,' +
-  ' от того места, где мы используем this. Стрелочные функции не имеют собственного значения this.' +
-  ' Они копируют значение this из внешнего лексического окружения где была обьявлена.' +
-  'В IIFE, функциях, которые создаются в глобальной области видимости, анонимных функциях ' +
-  'и внутренних функциях методов объекта значением this по умолчанию является объект window.' +
-  'привязка контекста call(context,arg1,arg2...) apply(context,[arg1,arg2...]) f.bind(context,arg1,arg2...)'
+console.log("Каждая функция javascript при вызове получает ссылку на текущий контекст выполнения, называемый this." +
+	"В строгом режиме значение этого ключевого слова по умолчанию undefined, не в строгом - глобальный объект (window в браузере)" +
+	"это называется привязкой по умолчанию для этого ключевого слова." +
+	"Если мы вызываем функцию как метод обьекта, this становится этим объектом - это неявная привязка this." +
+	"Явная привязка this f.call(context,arg1,arg2...) f.apply(context,[arg1,arg2...]) f.bind(context,arg1,arg2...)" +
+	"Ключевое слово new перед любой функцией превращает вызов функции в вызов конструктора, при этом " +
+	"создается новый пустой объект, и этот обьект присваивается this, код функции обычно модифицирует this, возвращается значение this" +
+	"Приоритет привязок ключевого слова this: " +
+	"1) вызывается ли функция с ключевым словом new. " +
+	"2) вызывается ли функция с помощью метода call () или apply (), что означает явную привязку" +
+	"3) вызывается ли функция как метод обьекта (неявная привязка)." +
+	"4) значение this по умолчанию (глобальный обьект или undefined)" +
+	"Если метод передаётся отдельно от объекта – this теряется. a=obj.doSomething" +
+	' Стрелочные функции не имеют собственного значения this. Они копируют значение this и arguments из внешней функции' +
+	'Стрелочные функции удобно использовать внутри обычных функций тк интуитивно понятно какое значение this они используют' +
+	'В IIFE, функциях, которые создаются в глобальной области видимости, анонимных функциях ' +
+	'и внутренних функциях методов объекта значением this по умолчанию является объект window.' +
+	'привязка контекста f.call(context,arg1,arg2...) f.apply(context,[arg1,arg2...]) f.bind(context,arg1,arg2...)'
 );
-// let obj = {
-//   name: 'Tor',
-//   show() {
-//     console.log("-> ", this.name);
-//   },
-//   gg: () => {
-//     console.log("->>>>> ", this);
-//   } //Если мы используем this внутри стрелочной функции,
-//   // то его значение берётся из внешней «нормальной» функции.
-// }
-//
-// function ggg() {
-//   console.log("->>>>>+++ ", this)
-// }
-//
-// obj.show();//Tor
-// obj.gg()//Window
-// ggg()//Window
-//
-// function f() {
-//   console.log("-> ", this.name);
-// }
-//
-// obj.f = f;
-//
-// obj.f();//Tor
-//
-// let show = obj.show;//нет привязки
-// show();//undefined this===Window
-//
-// let obj1 = {
-//   name: 'SURPRISE',
-//   show1() {
-//     return () => {
-//       console.log('--------', this.name)
-//     }
-//   }
-//
-// }
-//
-// obj.show = obj1.show1();//show1 вызвана для obj1 this===obj1 возвращаемая срел ф пролучает this из лексич окружения >> для нее теперь всегда this===obj1
-// obj1.show1()();//SURPRISE
-// obj.show();//SURPRISE
+let obj = {
+  name: 'Tor',
+  show() {
+    console.log("-> ", this.name);
+  },
+  gg: () => {
+    console.log("->>>>> ", this);
+  } //Если мы используем this внутри стрелочной функции,
+  // то его значение берётся из внешней «нормальной» функции.
+}
+
+function ggg() {
+  console.log("->>>>>+++ ", this)
+}
+
+function loseContecst(callback){
+	callback();
+}
+
+loseContecst(obj.show) //undefined тоже самое что и f=obj.show; loseContecst(f) потеря контекста при передаче метода отдельно от объекта
+loseContecst(()=>obj.show()) //Tor
+loseContecst(obj.show.bind(obj)) //Tor
+
+obj.show();//Tor
+obj.gg()//Window
+ggg()//Window
+
+function f() {
+  console.log("-> ", this.name);
+}
+
+obj.f = f;
+
+obj.f();//Tor
+
+let show = obj.show;//нет привязки. метод передаётся отдельно от объекта – this теряется.
+show();//undefined this===Window
+
+let obj1 = {
+  name: 'SURPRISE',
+  show1() {
+    return () => {
+      console.log('--------', this.name)
+    }
+  }
+}
+
+obj.show = obj1.show1();//show1 вызвана для obj1 this===obj1 возвращаемая срел ф пролучает this из лексич окружения >> для нее теперь всегда this===obj1
+obj1.show1()();//SURPRISE obj.show();//SURPRISE
 
 console.log('repeat() polyfill-----------------------------------------');
 // function repeat(n) {
@@ -162,16 +181,17 @@ console.log('repeat() polyfill-----------------------------------------');
 // console.log((new String).__proto__.repeat)
 
 console.log('map() polyfill-----------------------------------------');
-// Array.prototype.myMap=function(callback){
-//     let result=[]
-//     this.forEach(item=>{
-//         result.push(callback(item))
-//     })
-//     return result
-// }
+//Array.prototype.myMap=function(callback){
+//    let result=[]
+//    this.forEach(item=>{
+//        //result.push(callback(item))
+//		 result=[...result,callback(item)]
+//    })
+//    return result
+//}
 //
-// let ss=[1,2,3,4,5].myMap(item=>++item)
-// console.log(ss)//[2,3,4,5,6]
+//let ss=[1,2,3,4,5].myMap(item=>++item)
+//console.log(ss)//[2,3,4,5,6]
 
 console.log('filter() polyfill-----------------------------------------');
 // Array.prototype.myFilter=function(callback){
@@ -233,9 +253,9 @@ console.log('create-- polyfill---------------------------------');
 // console.log(rabbit.leg);//true
 
 console.log('обьект __proto__ работаем как с обычным свойством, если не находим свойства в обьекте то ищем в __proto__,' +
-  'Операции записи/удаления работают непосредственно с объектом, они не используют прототип (если это обычное свойство, а не сеттер),' +
-  'for..in перебирает как свои, так и унаследованные свойства, Остальные методы получения ключей/значений работают только' +
-  ' с собственными свойствами объекта');
+	'Операции записи/удаления работают непосредственно с объектом, они не используют прототип (если это обычное свойство, а не сеттер),' +
+	'for..in перебирает как свои, так и унаследованные свойства, Остальные методы получения ключей/значений работают только' +
+	' с собственными свойствами объекта');
 // let animal={
 //     legs: true
 // }
@@ -251,124 +271,127 @@ console.log('обьект __proto__ работаем как с обычным с
 //
 // wildRabbit.__proto__.tail='short'
 // console.log(wildRabbit.__proto__)
-// wildRabbit.__proto__=rabbit; //свойства из обьекта rabbit теперь  в прототипе обьекта wildRabbit //свойство tail теперь  в прототипе обьекта wildRabbit
-// console.log(rabbit,wildRabbit.__proto__)// rabbit убрал tail из прототипа
-//
-//
+// wildRabbit.__proto__=rabbit; //свойства из обьекта rabbit теперь  в прототипе обьекта wildRabbit //свойство tail теперь  в прототипе обьекта
+// wildRabbit console.log(rabbit,wildRabbit.__proto__)// rabbit убрал tail из прототипа
 // console.log(wildRabbit.legs,wildRabbit.ears,wildRabbit.strong,wildRabbit.tail,wildRabbit.__proto__.tail)//true long true short short
-// console.log(wildRabbit.__proto__);//rabbit
-// wildRabbit.__proto__.tail='ttt'
-// wildRabbit.__proto__.ears='not long'
-//
-// console.log(wildRabbit.__proto__);
-// //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// console.log(rabbit);// когда мы добавляем или меняем свойства прототипа они меняются в самом обьекте rabbit
-// console.log(wildRabbit.__proto__.__proto__);//animal
-// console.log(wildRabbit.__proto__.__proto__.__proto__);//Object
-//
-// console.log(rabbit.toString())
-// console.log(rabbit-wildRabbit)
-// const a=new Date()
-// console.log(a.valueOf())
-// console.log(a.toString())
+// console.log(wildRabbit.__proto__);//rabbit wildRabbit.__proto__.tail='ttt' wildRabbit.__proto__.ears='not long'
+// console.log(wildRabbit.__proto__); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! console.log(rabbit);// когда мы добавляем или
+// меняем свойства прототипа они меняются в самом обьекте rabbit console.log(wildRabbit.__proto__.__proto__);//animal
+// console.log(wildRabbit.__proto__.__proto__.__proto__);//Object  console.log(rabbit.toString()) console.log(rabbit-wildRabbit) const a=new Date()
+// console.log(a.valueOf()) console.log(a.toString())
 
 console.log('prototype -------- Значение F.prototype должно быть либо объектом, либо null. Другие значения не будут работать,' +
-  'По умолчанию все функции имеют F.prototype = { constructor: F }, поэтому мы можем получить конструктор объекта через свойство "constructor"');
-// let animal = {
-//     legs: true
-// }
+	'По умолчанию все функции имеют F.prototype = { constructor: F }, поэтому мы можем получить конструктор объекта через свойство "constructor"');
+//let animal = {
+//    legs: true
+//}
 //
-// function Rabbit(name) {
-//     this.name = name;
-// }
+//function Rabbit(name) {
+//    this.name = name;
+//}
 //
-// Rabbit.prototype = animal;//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ обьект animal
-// Rabbit.prototype.gotLegs=function(){return this.legs} //когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство gotLegs
-// Rabbit.prototype.nose=true//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство nose:true
-// let rabbit = new Rabbit('billy');
-// console.log('---->>>>',rabbit.legs, rabbit.name, rabbit.nose , rabbit.gotLegs(), rabbit.__proto__);//true billy true true  { legs: true, gotLegs: [Function (anonymous)], nose: true }
+//function WildRabbit(){}
+//console.log(Rabbit.prototype)
+//Rabbit.prototype = animal;//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ обьект animal
+//console.log(Rabbit.prototype)
+//Rabbit.prototype.gotLegs=function(){return this.legs} //когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство gotLegs
+//Rabbit.prototype.nose=true//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство nose:true
+//console.log(Rabbit.prototype)
+//WildRabbit.prototype=Object.create(Rabbit.prototype)
+//let rabbit = new Rabbit('billy');
+//console.log('---->>>>',rabbit.legs, rabbit.name, rabbit.nose , rabbit.gotLegs(), rabbit.__proto__);//true billy true true  { legs: true, gotLegs:
+// [Function (anonymous)], nose: true }
 
-console.log('promise---------------------------------------------');
-// prom = (a) => new Promise(resolve => {
-//     setTimeout(
-//         () => resolve(a + 10), 2000
-//     )
-// })
+console.log('promise---------------------------------------------' +
+	'Объект Promise используется для отложенных и асинхронных вычислений' +
+	'при создании промис принимает функцию-исполнитель с двумя колбеками resolve и reject' +
+	'функция-исполнитель описывает выполнение какой-то асинхронной работы, по завершении которой необходимо вызвать функцию resolve или reject' +
+	'При создании промис находится в ожидании (pending), а затем может стать исполненным  (fulfilled),' +
+	' вернув полученный результат (значение), или отклонённым (rejected), вернув причину отказа.' +
+	'любом из этих случаев вызывается обработчик, прикреплённый к промису методом then.');
+//prom = (a) => new Promise(resolve => {
+//    setTimeout(
+//        () => resolve(a + 10), 2000
+//    )
+//})
 //
-// async function f() {
-//     const a = await prom(10);
-//     console.log('a', a);
-//     const b = await prom(a)
-//     console.log('b', b)
+//async function f() {
+//    const a = await prom(10);
+//    console.log('a', a);
+//    const b = await prom(a)
+//    console.log('b', b)
 //
-// }
+//}
 //
-// f();
+//f();
 //
-// let c
-// prom(10).then(
-//     result => {
-//         console.log('result', result)
-//         return prom(result)
-//     }
-// ).then(
-//     res => {
-//         c = res
-//         console.log('c=', c)
-//     }
-// ).catch(e => console.log(e))
+//let c
+//prom(10).then(
+//    result => {
+//        console.log('result', result)
+//        return prom(result)
+//    }
+//).then(
+//    res => {
+//        c = res
+//        console.log('c=', c)
+//    }
+//).catch(e => console.log(e))
 //
 //
-// async function g() {
-//     try {
-//         let data = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-//         let json = await data.json()
-//         console.log(json)
-//     } catch (e) {
-//         console.error(e)
-//     } finally {
-//         console.log('final')
-//     }
+//async function g() {
+//    try {
+//        let data = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+//        let json = await data.json()
+//        console.log(json)
+//    } catch (e) {
+//        console.error(e)
+//    } finally {
+//        console.log('final')
+//    }
 //
-// }
+//}
 //
-// g()
+//g()
 //
-// fetch('https://jsonplaceholder.typicode.com/todos/1')
-//     .then(
-//         data => data.json()
-//     ).then(
-//     json => {
-//         console.log(json)
-//     }
-// )
+//fetch('https://jsonplaceholder.typicode.com/todos/1')
+//    .then(
+//        data => data.json()
+//    ).then(
+//    json => {
+//        console.log(json)
+//    }
+//)
 
 console.log('hoisting--- всплывае только обьявление а не присваивание. var функциональная область видимости-----' +
-  'var всплывает со значением undefined, let и const при всплытии undefined не присваивается поэтому при обращении будет ошибка')
-// console.log(num)//undef
-// num = 6
-// console.log(num);//6
-// var num
+	'var всплывает со значением undefined, let и const при всплытии undefined не присваивается поэтому при обращении будет ошибка')
+//console.log(num)
+//num = 6
+//console.log(num)
+//var num
 //
-// a = 10
-// console.log(a);//10
-// {
-//     var a
-// }
-// console.log(a);//10
+//a = 10
+//console.log(a);//10
+//{
+//    var a
+//}
+//console.log(a);//10
 //
-// cat();//mmmmmm
+//cat();//mau
 //
-// function cat() {
-//     console.log('mmmmmm')
-// }
+//function cat() {
+//    console.log('mau')
+//}
 //
-// {//console.log(aa, bb);---
-//     let aa = 10
-//     const bb = 20
-//     console.log(aa, bb);
-// }
-//  // console.log(aa, bb);---
+//dog();
+//let dog = function(){ console.log('gav')}
+//
+//{console.log(aa, bb);
+//    let aa = 10
+//    const bb = 20
+//    console.log(aa, bb);
+//}
+//  console.log(aa, bb);
 
 console.log('objects & primitives -----------------------')
 // let user={name:'pit'}
@@ -429,7 +452,7 @@ console.log('геттер сеттер  вызываем не как метод 
 // console.log(user.fullName);
 
 console.log('остаточные ...rest параметры (получаем массив из аргументов)' +
-  '...spread оператор расширения (получаем аргументы из массива или обьекта)-------------------')
+	'...spread оператор расширения (получаем аргументы из массива или обьекта)-------------------')
 // function sum(...args) {
 // return args.reduce((acc,item)=>acc+item,0)
 // }
@@ -451,7 +474,7 @@ console.log('остаточные ...rest параметры (получаем �
 // let myArray = [1, 2, 3, 4, 5];
 // let [a, b, c, ...d] = myArray;   //деструктуризвция
 
-console.log('Деструктуризация - приваивание значений свойств обьекта или элементов массива переменным-----')
+console.log('Деструктуризация - присваивание значений свойств обьекта или элементов массива переменным-----')
 // let arr = [undefined, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 // const [a = 'cool', , b, , ...rest] = arr
 // console.log(a, b, rest)// cool,3,[5-0]
@@ -476,6 +499,15 @@ console.log('Деструктуризация - приваивание знач�
 //   }
 // } = person
 // console.log(firstName, age, car, town, country)  //pit, 32,  no car, Moscow, Russia
+//
+//деструктуризация параметра функции
+//function userId({id}) {
+//	console.log(id);
+//}
+//var user = {
+//	id: 42,
+//};
+//userId(user)
 
 console.log('функция groupBy из Lodash-------------------------------------')
 // function groupBy(array, prop) {
@@ -501,8 +533,7 @@ console.log('-------------глубина вложенности массива--
 //     }
 //     return a
 // }
-
-console.log(getDeep(array))   //8
+// console.log(getDeep(array))   //8
 
 console.log('classes----------------------------------')
 // class Animal {
@@ -568,28 +599,49 @@ console.log('classes----------------------------------')
 //
 
 console.log('кэширующий декоратор --------------')
-// function makeCaching(f) {
-//     let cache = new Map()
-//     return function (...a) {
-//       const hash=a.toString()
-//       console.log(hash)
-//         if (cache.has(hash)) {
-//           console.log('take from cash:', hash,'-->',cache.get(hash))
-//             return cache.get(hash)
-//         } else {
-//           console.log('calculate')
-//             cache.set(hash,f(...a));
-//             return cache.get(a);
-//         }
-//     }
-// }
+//function makeCaching(f) {
+//    let cache = new Map()
+//    return function (...a) {
+//      const hash=a.toString()
+//      console.log(hash)
+//        if (cache.has(hash)) {
+//          console.log('take from cash:', hash,'-->',cache.get(hash))
+//            return cache.get(hash)
+//        } else {
+//          console.log('calculate')
+//            cache.set(hash,f(...a));
+//            return cache.get(a);
+//        }
+//    }
+//}
 //
-// function mult(a,b){return a*b}
+//function mult(a,b){return a*b}
 //
-// multCash = makeCaching(mult);
-// multCash(5,6)
-// multCash(5,6)
-// multCash(5,6)
+//multCash = makeCaching(mult);
+//multCash(5,6)
+//multCash(5,6)
+//multCash(5,6)
+//
+//function makeCaching(f) {
+//	let cache = new Map()
+//	return function (a) {
+//		if (cache.has(a)) {
+//			console.log('take from cash:', a,'-->',cache.get(a))
+//			return cache.get(a)
+//		} else {
+//			console.log('calculate',a)
+//			cache.set(a,f(a));
+//			return cache.get(a);
+//		}
+//	}
+//}
+//
+//function mult(a){return a*a}
+//multCash = makeCaching(mult);
+//multCash(5)
+//multCash(6)
+//multCash(5)
+//multCash(6)
 
 console.log('-------------------------------------tricky thing')
 // for(var s = 0; s < 5; s++) {
@@ -719,7 +771,6 @@ console.log('Debouncing (функция не запускается пока в�
 // console.log(debounced())
 
 console.log('REDUX --------------------------------')
-
 // function CreateStore() {
 //   const subscribers = []
 //   let state = {}
@@ -758,7 +809,6 @@ console.log('REDUX --------------------------------')
 // })
 
 console.log('Observer -----------------------')
-
 // function createObserver() {
 //   const subscribers = []
 //
@@ -781,3 +831,63 @@ console.log('Observer -----------------------')
 // observer.subscribe((data) => {
 //   countField.innerHTML = data.length
 // })
+
+console.log('-----для собеса rsschool------------------aaabbc-> 3a2b1c')
+//function check(str) {
+//  let arr = str.split('')
+//  let sorted = arr.sort((a, b) => {
+//    if (a > b) return 1;
+//    if (a < b) return -1
+//  })
+//  let ss=sorted.join('').trim()
+//  sorted=ss.split('')
+//  let res = '';
+//  let num = 1
+//  sorted.forEach((a, index) => {
+//    if (a === sorted[index + 1]) {
+//      num++
+//    } else {
+//      res += num + a;
+//      num = 1;
+//    }
+//  })
+//  return res
+//}
+//
+//console.log(check(' a b   a a bc c '))
+//let users = [
+//  {name: "Вася", age: 25, salary: 2000},
+//  {name: "Петя", age: 27, salary: 2500},
+//  {name: "Маша", age: 21, salary: 3000},
+//  {name: "Оля", age: 22, salary: 2800},
+//  {name: "Катя", age: 28, salary: 2300},
+//  {name: "Костя", age: 24, salary: 2100}
+//];
+//
+//function range(arr, parameter, min, max) {
+//  const filtered = arr.filter(item => item[parameter] >= min && item[parameter] <= max)
+//  filtered.sort((a, b) => a[parameter] - b[parameter])
+//  return filtered.map(item => item.name)
+//}
+//
+//console.log(range(users, 'age', 21, 25))
+//
+//
+//let users = [
+//	{name: "Вася", age: 25, salary: 2000},
+//	{name: "Петя", age: 27, salary: 2500},
+//	{name: "Маша", age: 21, salary: 3000},
+//	{name: "Оля", age: 22, salary: 2800},
+//	{name: "Катя", age: 28, salary: 2300},
+//	{name: "Костя", age: 24, salary: 2100}
+//];
+//
+// вернуть массив имен у которых параметр будут в заданных пределах
+//
+//function range() {
+//
+//}
+//
+//console.log(range(users, 'age', 21, 25))
+
+
