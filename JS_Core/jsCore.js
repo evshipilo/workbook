@@ -1068,46 +1068,46 @@
 
 //TODO bench training
 
-const meeting = (arr) => {
-  const index = arr.findIndex(item=> item==='O')
-  return index === -1 ? 'None available!' : index
-}
+// const meeting = (arr) => {
+//   const index = arr.findIndex(item=> item==='O')
+//   return index === -1 ? 'None available!' : index
+// }
 
-console.log(meeting(['X', 'O', 'X']),
-  meeting(['O','X','X','X','X']),
-  meeting(['X','X','X','X','X']))
+// console.log(meeting(['X', 'O', 'X']),
+//   meeting(['O','X','X','X','X']),
+//   meeting(['X','X','X','X','X']))
 
-const compareCharacters = (obj) => {
-  const commonArr = []
-  const resultObj = {}
-  const keysArr = Object.keys(obj).reverse()
+// const compareCharacters = (obj) => {
+//   const commonArr = []
+//   const resultObj = {}
+//   const keysArr = Object.keys(obj).reverse()
 
-  keysArr.forEach(key=>{
-    const arr = obj[key]
-    const resultArr = []
+//   keysArr.forEach(key=>{
+//     const arr = obj[key]
+//     const resultArr = []
 
-    arr.forEach(char=> {
-      if(!commonArr.includes(char)){
-        commonArr.push(char)
-        resultArr.push(char)
-      }
-    })
+//     arr.forEach(char=> {
+//       if(!commonArr.includes(char)){
+//         commonArr.push(char)
+//         resultArr.push(char)
+//       }
+//     })
 
-    resultObj[key]=resultArr
-  })
+//     resultObj[key]=resultArr
+//   })
 
-  return resultObj
-}
+//   return resultObj
+// }
 
-console.log(compareCharacters({
-  "1": ["C", "F", "G"],
-  "2": ["A", "B", "C"],
-  "3": ["A", "B", "D"],
-}))
+// console.log(compareCharacters({
+//   "1": ["C", "F", "G"],
+//   "2": ["A", "B", "C"],
+//   "3": ["A", "B", "D"],
+// }))
 
-console.log(compareCharacters({
-  "1": ["A"],
-  "2": ["A"],
-  "3": ["A"],
-}))
+// console.log(compareCharacters({
+//   "1": ["A"],
+//   "2": ["A"],
+//   "3": ["A"],
+// }))
 
