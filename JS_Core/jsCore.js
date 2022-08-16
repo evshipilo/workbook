@@ -150,7 +150,7 @@
 //  текущей области видимости и во внешних областях видимости. Все функции «при рождении» получают скрытое свойство [[Environment]], которое
 //  ссылается на лексическое окружение места, где они были созданы. Лексическое окружение - обьект в котором содержаться локальные переменные и
 //  ссылка на внешнее лексическое окружение. В стек вызоаов попадают контексты выполнения функций, которые состоят из значения this и лексического
-//  окружения.
+//  окружения  = [[Environment]].
 
 //function counterInit(increment) {
 //    let count = 0;
@@ -251,7 +251,7 @@
 //	2) вызывается ли функция с помощью метода call () или apply (), что означает явную привязку
 //	3) вызывается ли функция как метод обьекта (неявная привязка).
 //	4) значение this по умолчанию (глобальный обьект или undefined)
-//	Если метод передаётся отдельно от объекта – this теряется. a=obj.doSomething
+//	Если метод передаётся отдельно от объекта – this теряется. a=obj.doSomething; a();
 //	 Стрелочные функции не имеют собственного значения this. Они копируют значение this и arguments из внешней функции
 //	И это поведение нельзя изменить с помощью функций call или bind.
 //	Стрелочные функции удобно использовать внутри обычных функций тк интуитивно понятно какое значение this они используют
@@ -970,42 +970,42 @@
 
 // TODO REDUX
 
-// function CreateStore() {
-//   const subscribers = []
-//   let state = {}
-//
-//   function reducer(state, action) {
-//     if (action.type === 'change') {
-//       return {...state, text: action.payload}
-//     }
-//     return state
-//   }
-//
-//   return {
-//     subscribe(callback) {
-//       subscribers.push(callback)
-//     },
-//     dispatch(action) {
-//       state = reducer(state, action)
-//       subscribers.forEach(subscriber => subscriber())
-//     },
-//     getState() {
-//       return state
-//     }
-//   }
-// }
-//
-// const store = CreateStore()
-// const textField = document.querySelector('.textField')
-// const countField = document.querySelector('.countField')
-//
-// textField.addEventListener('keyup', () => {
-//   store.dispatch({type: 'change', payload: textField.value})
-// })
-//
-// store.subscribe(() => {
-//   countField.innerHTML = store.getState().text.length
-// })
+ //function CreateStore() {
+ //  const subscribers = []
+ //  let state = {}
+ //
+ //  function reducer(state, action) {
+ //    if (action.type === 'change') {
+ //      return {...state, text: action.payload}
+ //    }
+ //    return state
+ //  }
+ //
+ //  return {
+ //    subscribe(callback) {
+ //      subscribers.push(callback)
+ //    },
+ //    dispatch(action) {
+ //      state = reducer(state, action)
+ //      subscribers.forEach(subscriber => subscriber())
+ //    },
+ //    getState() {
+ //      return state
+ //    }
+ //  }
+ //}
+ //
+ //const store = CreateStore()
+ //const textField = document.querySelector('.textField')
+ //const countField = document.querySelector('.countField')
+ //
+ //textField.addEventListener('keyup', () => {
+ //  store.dispatch({type: 'change', payload: textField.value})
+ //})
+ //
+ //store.subscribe(() => {
+ //  countField.innerHTML = store.getState().text.length
+ //})
 
 // TODO для собеса rsschool------------------aaabbc-> 3a2b1c
 
@@ -1066,4 +1066,48 @@
 //
 //console.log(range(users, 'age', 21, 25))
 
+//TODO bench training
+
+const meeting = (arr) => {
+  const index = arr.findIndex(item=> item==='O')
+  return index === -1 ? 'None available!' : index
+}
+
+console.log(meeting(['X', 'O', 'X']),
+  meeting(['O','X','X','X','X']),
+  meeting(['X','X','X','X','X']))
+
+const compareCharacters = (obj) => {
+  const commonArr = []
+  const resultObj = {}
+  const keysArr = Object.keys(obj).reverse()
+
+  keysArr.forEach(key=>{
+    const arr = obj[key]
+    const resultArr = []
+
+    arr.forEach(char=> {
+      if(!commonArr.includes(char)){
+        commonArr.push(char)
+        resultArr.push(char)
+      }
+    })
+
+    resultObj[key]=resultArr
+  })
+
+  return resultObj
+}
+
+console.log(compareCharacters({
+  "1": ["C", "F", "G"],
+  "2": ["A", "B", "C"],
+  "3": ["A", "B", "D"],
+}))
+
+console.log(compareCharacters({
+  "1": ["A"],
+  "2": ["A"],
+  "3": ["A"],
+}))
 

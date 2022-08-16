@@ -86,3 +86,40 @@ injected(UserService3, TOKENS.user);
 
 const userServiceInstance = container.get(TOKENS.userService)
 	console.log(userServiceInstance.isAdmin())
+
+
+
+function filterBy<T, P extends keyof T>(input: T[], propName: P, propValue: T[P]): T[] {
+	return input.filter((item) => item[propName] === propValue);
+}
+
+// что должно получиться
+interface IEmployee {
+	name: string;
+	age: number;
+	position: "Programmer" | "Accountant" | "Designer";
+}
+
+const employees: IEmployee[] = [
+	{ name: "Mikle", age: 20, position: "Programmer" },
+	{ name: "Jordan", age: 25, position: "Designer" },
+	{ name: "Stive", age: 34, position: "Accountant" },
+	{ name: "Tom", age: 19, position: "Programmer" },
+	{ name: "Bob", age: 43, position: "Programmer" },
+	{ name: "Mikle", age: 19, position: "Programmer" },
+	{ name: "Bob", age: 27, position: "Designer" }
+];
+
+console.log(filterBy(employees, "position", "Programmer")) // вернёт IEmployee[]
+console.log(filterBy(employees, "surname", "Cook")) // ошибка, тип IEmployee не содержит поле 'surname'
+console.log(filterBy(employees, "position", "Tester")) // ошибка, поле 'position' не может содержать значение
+
+function fn(x: boolean): void
+// Неправильный тип аргумента
+function fn(x: string): void
+// This overload signature is not compatible with its implementation signature.
+// Данная сигнатура перегрузки не совместима с сигнатурой ее реализации
+function fn(x: boolean | string) {}
+
+
+

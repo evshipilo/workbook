@@ -139,7 +139,8 @@ console.log('chain_of_responsibility----------')
 // // }
 // // const  sum=new MySum()
 // // console.log(sum.add(2).add(5).add(8).sum);
-// console.log('observer-----------------------')
+
+ console.log('observer-----------------------')
 // // class Subject {
 // //     constructor() {
 // //         this.observers=[]
@@ -184,51 +185,116 @@ console.log('observer (обозреватель) мы создаем один о
     'этого обсервера с помощью subscribe. Поэтому когда мы вызовем observer.dispatch, то это уведомит' +
     'всех подписчиков.------------------------')
 
-// class EventObserver {
-//     constructor() {
-//         this.observers = []  //массив подписчиков (массив функций которые вызываются при срабатывании метода dispatch)
-//     }
-//
-//     subscribe(fn) {
-//         this.observers.push(fn)
-//     }
-//
-//     unsubscribe(fn) {
-//         this.observers = this.observers.filter(subscriber => subscriber !== fn)
-//     }
-//
-//     dispatch(data) {
-//         this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
-//                                                             // передавая ей в параметры данные из параметров метода dispatch
-//     }
-// }
-//
-// const blogObserver = new EventObserver()
-//
-// const textField = document.querySelector('.textField')
-// const countField = document.querySelector('.countField')
-// const countField2 = document.querySelector('.countField2')
-//
-// blogObserver.subscribe(text => {
-//     console.log('broadcast catched', text)
-// })
-//
-// blogObserver.subscribe(text=>{
-//     countField.innerHTML=getWordsCount(text)
-// })
-//
-// blogObserver.subscribe(text=>{
-//     countField2.innerHTML=getSymbolsCount(text)
-// })
-//
-// textField.addEventListener('keyup', () => {
-//     blogObserver.dispatch(textField.value)
-// })
-//
-// function getWordsCount(text) {
-//     return text ? text.trim().split(/\s+/).length : 0
-// }
-//
-// function getSymbolsCount(text) {
-//     return text ? text.split('').length : 0
-// }
+
+ class EventObserver {
+     constructor() {
+         this.observers = []  //массив подписчиков (массив функций которые вызываются при срабатывании метода dispatch)
+     }
+
+     subscribe(fn) {
+         this.observers.push(fn)
+     }
+
+     unsubscribe(fn) {
+         this.observers = this.observers.filter(subscriber => subscriber !== fn)
+     }
+
+     dispatch(data) {
+         this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
+                                                             // передавая ей в параметры данные из параметров метода dispatch
+     }
+ }
+
+function functionalEventObserver() {
+ const observers = []
+
+ return (
+   {
+    subscribe(fn) { observers.push(fn) },
+    dispatch(data) { observers.forEach(observer => observer(data)) }
+   }
+ )
+
+}
+
+//redux
+function createStore() {
+  const subscribers = [];
+  let state = {};
+
+  function reducer(action, state) {
+    switch (action.type){
+      case 'PushKey' : return {
+        ...state,
+        text: action.payload,
+        symbolsCount: getSymbolsCount(action.payload),
+        wordsCount: getWordsCount(action.payload)
+      };
+      break;
+      default: return {...state};
+    }
+
+  }
+
+  return {
+    subscribe(fn) {
+      subscribers.push(fn)
+    },
+    dispatch(action) {
+      state = reducer(action, state); // редюсер меняет стейт в соответствии с экшеном
+      subscribers.forEach(subscriber => subscriber(state)) // подписчики получают свежий стейт
+    }
+  }
+
+}
+
+ //const blogObserver = new EventObserver()
+ //const blogObserver = functionalEventObserver()
+ const store = createStore()
+
+ const textField = document.querySelector('.textField')
+ const countField = document.querySelector('.countField')
+ const countField2 = document.querySelector('.countField2')
+
+ //blogObserver.subscribe(text => {
+ //    console.log('broadcast catched', text)
+ //})
+ //
+ //blogObserver.subscribe(text=>{
+ //    countField.innerHTML=getWordsCount(text)
+ //})
+ //
+ //blogObserver.subscribe(text=>{
+ //    countField2.innerHTML=getSymbolsCount(text)
+ //})
+ //
+ //textField.addEventListener('keyup', () => {
+ //    blogObserver.dispatch(textField.value)
+ //})
+
+
+
+store.subscribe(state => {
+  console.log('state', state)
+})
+
+store.subscribe(state=>{
+  countField.innerHTML=state.wordsCount
+})
+
+store.subscribe(state=>{
+  countField2.innerHTML=state.symbolsCount
+})
+
+textField.addEventListener('keyup', () => {
+  store.dispatch({type:'PushKey',payload: textField.value})
+})
+
+ function getWordsCount(text) {
+     return text ? text.trim().split(/\s+/).length : 0
+ }
+
+ function getSymbolsCount(text) {
+     return text ? text.split('').length : 0
+ }
+
