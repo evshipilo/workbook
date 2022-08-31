@@ -1,5 +1,3 @@
-// import parseFunction from 'parse-function';
-
 // Внедрение зависимостей — это шаблон, который помогает избежать жестко запрограммированных зависимостей в модулях,
 //  давая вызывающей стороне возможность изменять их и предоставлять свои собственные, если они хотят, в одном месте.
 // Давайте разберемся для чего он нужен на примере
@@ -22,25 +20,22 @@
 
 // Давайте рассмотрим этот пример, классу Car требуется инстанс класса Tires. Мы можем сказать что Car зависит от Tires.
 // Как мы видим - этот пример рабочий, в конструкторе Car успешно инициализируется поле tires инстансом класса Tires.
-// Однако такой подход вызывает проблеы:
-// Если мы изменим имплементацию класса Tires (например добавим параметр конструктора)
+// Однако такой подход вызывает проблеы.
+// Давайте мы изменим имплементацию класса Tires (например добавим параметр конструктора)
 
 // class Tires {
-
-// constructor(size, vendor, season) {
-//   this.size = size;
-//   this.vendor = vendor;
-//   this.season = season;
-// }
+//   constructor(size, vendor, season) {
+//     this.size = size;
+//     this.vendor = vendor;
+//     this.season = season;
+//   }
 // }
 
 // class Car {
-
-// constructor(name, size, vendor, season) {
-//   this.name = name;
-//   this.tires = new Tires(size, vendor, season);
-// }
-
+//   constructor(name, size, vendor, season) {
+//     this.name = name;
+//     this.tires = new Tires(size, vendor, season);
+//   }
 // }
 
 // const someCar2 = new Car('Volvo', 19, 'Pirelli', 'summer');
@@ -75,7 +70,7 @@
 
 // const someCar3 = new Car('Volvo', new Tires(19, 'Pirelli', 'summer'));
 
-// Мы передали зависимость (инстанс класса Tires) в параметрах конструктора класса Car
+// Мы передали зависимость (инстанс класса Tires) как аргумент конструктора класса Car
 // теперь имплементация класса Car не зависит от Tires
 // Такой паттерн называется Dependency Injection.
 
@@ -140,16 +135,16 @@ class Car {
 // теперь для получения инстанса класса Car нам нужно вручную создать инстансы всех его зависимостей, которые в свою очередь
 // также имеют зависимости
 
-// const stockService = new StockService();
-// const transferService = new TransferService();
-// const tiresService = new TiresService(stockService, transferService, 'pirelli');
-// const person = new Person('Bill', 'Russel');
+const stockService = new StockService();
+const transferService = new TransferService();
+const tiresService = new TiresService(stockService, transferService, 'pirelli');
+const person = new Person('Bill', 'Russel');
 
-// const someCar = new Car('Volvo', tiresService, person);
-// console.log(someCar);
+const someCar = new Car('Volvo', tiresService, person);
+console.log(someCar);
 
 // теперь представим что мы создаем инстансы Car во многих местах в приложении и нам понадобилось изменить
-// одну из его зависимостей, тогда мы должны найти все эти места и исправить вручную зависимости.
+// одну из его зависимостей, тогда мы должны найти все эти места и исправить зависимости вручную.
 // Было бы не плохо если бы какая-то сущность сделала это за нас, создала инстансы всех зависимостей
 // и инжектировала их.
 // Для решения этой проблемы воспользуемся паттерном Inversion of Control (IoC) - суть которого в том, что разработчик часть своих полномочий отдает на
@@ -158,13 +153,14 @@ class Car {
 //   Dependency Injection Container (DIC) при инициализации инстанса основного класса.
 // Давайте создадим простейший Dependency Injection Container
 
-class Driver extends Person{
+class Driver {
   constructor(firstName, lastName) {
-    super(firstName, lastName);
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
 
-  setDriverLicense(id){
-    this.driverLicense = id
+  setDriverLicense(id) {
+    this.driverLicense = id;
   }
 }
 
@@ -175,10 +171,10 @@ class DIC {
   }
 
   registerDependency(name, dependency) {
-      this.dependencies[name] = dependency;
+    this.dependencies[name] = dependency;
   }
 
-  setArgument(name, argument){
+  setArgument(name, argument) {
     this.arguments[name] = argument;
   }
 
@@ -208,13 +204,24 @@ class DIC {
 
   getInstance(dependency) {
     const fnArgs =
-      this.getConstructorParams(dependency)?.map((arg) => this.get(arg)) ||
-      [];
+      this.getConstructorParams(dependency)?.map((arg) => this.get(arg)) || [];
     return new dependency(...fnArgs);
   }
 }
 
-// создадим инстанс Dependency Injection Container и зарегистрируем в нем все классовые зависимости, которые
+// Давайте разберемся как это работает этот Dependency Injection Container.
+//  Здесь используются понятия 'зависимости' - это классы, инстансы которых нужно создать и 
+//  'аргументы' - это инстансы классов, обекты или примитивы который мы передаем в качестве аргументов в конструктор.
+// Dependency Injection Container хранит зависимости и аргументы  в отдельных обьектах, где ключ это имя парамерта конструктора а значение 
+// это класс (для зависимостей) и обьект или примитив (для аргументов). Для начала при помощи метода registerDependency мы передаем в
+//  DIC все зависимости а при помощи метода setArgument передаем все аргументы. Затем вызываем метод get('car') и передаем в него имя класса
+//  инстанс которого мы хотим создать. В нашем случае у класса Car имя 'car'. Далее вызывается метод getInstance(Car) который получает
+//  имена параметров конструктора класса Car и для каждого из них снова рекурсивно вызывается метод get(parametrName), если имя параметра соответствует
+//  аргументу, то метод возвращает эначение этого аргумента. Если имя параметра соответствует зависимости, то снова вызывается метод
+// getInstance(dependency) который создает инстанс зависимости и передает его в качестве аргумента.
+
+
+// создадим инстанс Dependency Injection Container и зарегистрируем в нем все зависимости, которые
 // требуют создания инстансов, они будут постоянно храниться в контейнере и не требуют изменения
 const dic = new DIC();
 dic.registerDependency('stockService', StockService);
@@ -223,9 +230,8 @@ dic.registerDependency('tiresService', TiresService);
 dic.registerDependency('person', Driver);
 dic.registerDependency('car', Car);
 
-
 // теперь в любом месте в коде чтобы получить инстанс Car
-//  передадим в Dependency Injection Container необходимые аргументы 
+//  передадим в Dependency Injection Container необходимые аргументы
 
 dic.setArgument('carVendor', 'Ferrari');
 dic.setArgument('tiresVendor', 'toyo');
@@ -233,18 +239,22 @@ dic.setArgument('firstName', 'John');
 dic.setArgument('lastName', 'Stone');
 const someNewCar5 = dic.get('car');
 
-// получаем другой инстанс Car с новыми аргументами, зависимости остаются те же
+// результат будет тот же что и при ручной передаче зависимостей
+// Чтобы получить другой автомобиль нужно только сбросить аргументы и передать в DIC новые, зависимости остаются те же
 
-dic.resetArguments()
+dic.resetArguments();
 dic.setArgument('carVendor', 'Volvo');
 dic.setArgument('tiresVendor', 'pirelli');
 dic.setArgument('firstName', 'Mike');
 dic.setArgument('lastName', 'Miller');
 const someNewCar6 = dic.get('car');
 
-
 console.log(someNewCar5);
-someNewCar6.person.setDriverLicense(123);
-console.log(someNewCar6);
 
 // теперь давайте поменяем зависимость, вместо класса Person используем класс Driver
+// с помощью DIC это сделать очень просто, на этапе регистрайии зависимостей вместо dic.registerDependency('person', Person); 
+//  указать dic.registerDependency('person', Driver);
+// при этом все cars созданные в автоматически получат новую зависимость. 
+
+someNewCar6.person.setDriverLicense(123);
+console.log(someNewCar6.person.driverLicense);
