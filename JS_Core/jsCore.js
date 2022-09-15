@@ -41,6 +41,22 @@
 //  должны зависеть от абстракций. Абстракции не должны зависеть от деталей, детали должны зависеть от абстракций. DIP помогает снизить
 //  взаимозависимость модулей.
 
+// TODO Семантика HTML
+// 1 Доступность — вы получаете функциональность доступности  «из коробки», например используя тег button вместо div
+// мы получаем встроенные стили и встроенную доступность с клавиатуры: между button можно передвигаться с помощью кнопки Tab и активировать, используя Enter.
+// 2 Лучше для мобильных — семантический HTML легче по размеру, чем не семантический спагетти-код, и его легче сделать адаптивным
+// 3 Хорошо для SEO — поисковики уделяют больше внимания ключевым словам внутри заголовков, ссылок и т.д., чем ключевым словам, помещённым в не семантический 
+// <div> и т.д., поэтому клиентам будет проще найти ваш сайт
+// Элемент <em> акцентирует сильное выделение на тексте, а элемент <i> определяет текст, который будет выражен альтернативным голосом или тоном
+// атрибут alt для img для ридеров даёт возможность прочитать описание картинки.
+// <header>, <nav>, <article>, <section>, <aside> и <footer>. - структурная семантика
+// текстовая семантика -- <strong><b>жирный<em><i>курсив,<ins> <u> подчеркнутый <del> <s> зачеркнутый текст <mark>-выделенный <abbr> абревеатуры 
+// <pre><code>Представление фрагментов кода <cite> <q> <blockquote>цитаты
+// WAI-ARIA (Web Accessibility Initiative — Accessible Rich Internet Applications) является спецификацией, которая помогает сделать веб-страницы и приложения
+//  более доступными для людей с ограниченными возможностями. В частности, WAI-ARIA помогает определить роли (что блоки содержимого делают), 
+// состояния (как блоки содержимого настроены), а также дополнительные свойства для поддержки вспомогательных технологий.
+// Установка ролей WAI-ARIA осуществляется с помощью атрибута role. Эти роли затем указывают, что определённые элементы и блоки содержимого делают на странице.
+
 // TODO Event Loop -- JS однопоточный, одновременно выполняет только 1 задачу.
 // При вызове функций создаются контексты их выполнения (лексическое окружение + this), которые помещаются в стек вызовов, по мере выполнения функций 
 // контексты удаляются из стека. Однако выполнение некоторых функций может быть отложено во времени (SetTimeout, EventListeners, Promise)
@@ -69,7 +85,6 @@
 //	Стрелочные функции удобно использовать внутри обычных функций тк интуитивно понятно какое значение this они используют
 //	В IIFE, функциях, которые создаются в глобальной области видимости, анонимных функциях
 //	и внутренних функциях методов объекта значением this по умолчанию является объект window.
-//	привязка контекста f.call(context,arg1,arg2...) f.apply(context,[arg1,arg2...]) f.bind(context,arg1,arg2...)
 
 // TODO замыкание — это способность функции во время создания запоминать лексическое окружение - ссылки на переменные и параметры, находящиеся в
 //  текущей области видимости и во внешних областях видимости. Все функции «при рождении» получают скрытое свойство [[Environment]], которое
@@ -84,7 +99,7 @@
 //        return count;
 //    }
 // }
-
+// 
 // let counter=counterInit(1);
 // //console.log(count);//ReferenceError
 // console.log(counter());//1
@@ -990,42 +1005,42 @@
 
 // TODO REDUX
 
- //function CreateStore() {
- //  const subscribers = []
- //  let state = {}
- //
- //  function reducer(state, action) {
- //    if (action.type === 'change') {
- //      return {...state, text: action.payload}
- //    }
- //    return state
- //  }
- //
- //  return {
- //    subscribe(callback) {
- //      subscribers.push(callback)
- //    },
- //    dispatch(action) {
- //      state = reducer(state, action)
- //      subscribers.forEach(subscriber => subscriber())
- //    },
- //    getState() {
- //      return state
- //    }
- //  }
- //}
- //
- //const store = CreateStore()
- //const textField = document.querySelector('.textField')
- //const countField = document.querySelector('.countField')
- //
- //textField.addEventListener('keyup', () => {
- //  store.dispatch({type: 'change', payload: textField.value})
- //})
- //
- //store.subscribe(() => {
- //  countField.innerHTML = store.getState().text.length
- //})
+ function CreateStore() {
+  const subscribers = []
+  let state = {}
+ 
+  function reducer(state, action) {
+    if (action.type === 'change') {
+      return {...state, text: action.payload}
+    }
+    return state
+  }
+ 
+  return {
+    subscribe(callback) {
+      subscribers.push(callback)
+    },
+    dispatch(action) {
+      state = reducer(state, action)
+      subscribers.forEach(subscriber => subscriber())
+    },
+    getState() {
+      return state
+    }
+  }
+ }
+ 
+ const store = CreateStore()
+ const textField = document.querySelector('.textField')
+ const countField = document.querySelector('.countField')
+ 
+ textField.addEventListener('keyup', () => {
+  store.dispatch({type: 'change', payload: textField.value})
+ })
+ 
+ store.subscribe(() => {
+  countField.innerHTML = store.getState().text.length
+ })
 
 // TODO для собеса rsschool------------------aaabbc-> 3a2b1c
 
@@ -1131,3 +1146,44 @@
 //   "3": ["A"],
 // }))
 
+const titles = [{id: 1, title: 't1'}, {id: 5, title: 't5'}]; 
+const names = [{id: 1, name: 'n1'},{id: 5, name: 'n5'}, {id: 3, name: 'n3'}]; 
+const statuses = [{id: 1, status: 's1'}, {id: 3, status: 's3'}, {id: 8, status: 's8'}]; 
+
+ 
+
+function gatherItems(names, titles, statuses) { 
+// Your code here 
+  let arr = [...titles, ...names, ...statuses];
+  let idArr = arr.map(item=>item.id)
+  let unique = new Set(idArr);
+  let uniqueIdArr = Array.from(unique);
+  let resultArr = [];
+  uniqueIdArr.forEach(id=>{
+	let filtered = arr.filter(item=>item.id===id);
+	let obj = filtered.reduce((acc,it)=>({...acc, ...it}),{});
+	resultArr.push(obj);
+
+});
+return resultArr;
+
+}; 
+
+console.log(gatherItems(names, titles, statuses))
+
+// [ { id: 1, title: 't1', name: 'n1', status: 's1' },
+//   { id: 5, title: 't5', name: 'n5' },
+//   { id: 3, name: 'n3', status: 's3' },
+//   { id: 8, status: 's8' } ]
+
+function func(...args) {
+	const accum = [...args.flat()];
+	const result = {};
+	accum.forEach((item) => {
+	  result[item.id] = { ...result?.[item.id], ...item };
+	});
+	console.log(result)
+	return Object.values(result);
+  }
+
+  console.log(func(names, titles, statuses))
