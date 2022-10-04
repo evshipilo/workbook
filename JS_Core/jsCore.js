@@ -41,22 +41,6 @@
 //  должны зависеть от абстракций. Абстракции не должны зависеть от деталей, детали должны зависеть от абстракций. DIP помогает снизить
 //  взаимозависимость модулей.
 
-// TODO Семантика HTML
-// 1 Доступность — вы получаете функциональность доступности  «из коробки», например используя тег button вместо div
-// мы получаем встроенные стили и встроенную доступность с клавиатуры: между button можно передвигаться с помощью кнопки Tab и активировать, используя Enter.
-// 2 Лучше для мобильных — семантический HTML легче по размеру, чем не семантический спагетти-код, и его легче сделать адаптивным
-// 3 Хорошо для SEO — поисковики уделяют больше внимания ключевым словам внутри заголовков, ссылок и т.д., чем ключевым словам, помещённым в не семантический 
-// <div> и т.д., поэтому клиентам будет проще найти ваш сайт
-// Элемент <em> акцентирует сильное выделение на тексте, а элемент <i> определяет текст, который будет выражен альтернативным голосом или тоном
-// атрибут alt для img для ридеров даёт возможность прочитать описание картинки.
-// <header>, <nav>, <article>, <section>, <aside> и <footer>. - структурная семантика
-// текстовая семантика -- <strong><b>жирный<em><i>курсив,<ins> <u> подчеркнутый <del> <s> зачеркнутый текст <mark>-выделенный <abbr> абревеатуры 
-// <pre><code>Представление фрагментов кода <cite> <q> <blockquote>цитаты
-// WAI-ARIA (Web Accessibility Initiative — Accessible Rich Internet Applications) является спецификацией, которая помогает сделать веб-страницы и приложения
-//  более доступными для людей с ограниченными возможностями. В частности, WAI-ARIA помогает определить роли (что блоки содержимого делают), 
-// состояния (как блоки содержимого настроены), а также дополнительные свойства для поддержки вспомогательных технологий.
-// Установка ролей WAI-ARIA осуществляется с помощью атрибута role. Эти роли затем указывают, что определённые элементы и блоки содержимого делают на странице.
-
 // TODO Event Loop -- JS однопоточный, одновременно выполняет только 1 задачу.
 // При вызове функций создаются контексты их выполнения (лексическое окружение + this), которые помещаются в стек вызовов, по мере выполнения функций 
 // контексты удаляются из стека. Однако выполнение некоторых функций может быть отложено во времени (SetTimeout, EventListeners, Promise)
@@ -1005,42 +989,42 @@
 
 // TODO REDUX
 
- function CreateStore() {
-  const subscribers = []
-  let state = {}
+//  function CreateStore() {
+//   const subscribers = []
+//   let state = {}
  
-  function reducer(state, action) {
-    if (action.type === 'change') {
-      return {...state, text: action.payload}
-    }
-    return state
-  }
+//   function reducer(state, action) {
+//     if (action.type === 'change') {
+//       return {...state, text: action.payload}
+//     }
+//     return state
+//   }
  
-  return {
-    subscribe(callback) {
-      subscribers.push(callback)
-    },
-    dispatch(action) {
-      state = reducer(state, action)
-      subscribers.forEach(subscriber => subscriber())
-    },
-    getState() {
-      return state
-    }
-  }
- }
+//   return {
+//     subscribe(callback) {
+//       subscribers.push(callback)
+//     },
+//     dispatch(action) {
+//       state = reducer(state, action)
+//       subscribers.forEach(subscriber => subscriber())
+//     },
+//     getState() {
+//       return state
+//     }
+//   }
+//  }
  
- const store = CreateStore()
- const textField = document.querySelector('.textField')
- const countField = document.querySelector('.countField')
+//  const store = CreateStore()
+//  const textField = document.querySelector('.textField')
+//  const countField = document.querySelector('.countField')
  
- textField.addEventListener('keyup', () => {
-  store.dispatch({type: 'change', payload: textField.value})
- })
+//  textField.addEventListener('keyup', () => {
+//   store.dispatch({type: 'change', payload: textField.value})
+//  })
  
- store.subscribe(() => {
-  countField.innerHTML = store.getState().text.length
- })
+//  store.subscribe(() => {
+//   countField.innerHTML = store.getState().text.length
+//  })
 
 // TODO для собеса rsschool------------------aaabbc-> 3a2b1c
 
@@ -1146,44 +1130,103 @@
 //   "3": ["A"],
 // }))
 
-const titles = [{id: 1, title: 't1'}, {id: 5, title: 't5'}]; 
-const names = [{id: 1, name: 'n1'},{id: 5, name: 'n5'}, {id: 3, name: 'n3'}]; 
-const statuses = [{id: 1, status: 's1'}, {id: 3, status: 's3'}, {id: 8, status: 's8'}]; 
+// const titles = [{id: 1, title: 't1'}, {id: 5, title: 't5'}]; 
+// const names = [{id: 1, name: 'n1'},{id: 5, name: 'n5'}, {id: 3, name: 'n3'}]; 
+// const statuses = [{id: 1, status: 's1'}, {id: 3, status: 's3'}, {id: 8, status: 's8'}]; 
 
  
 
-function gatherItems(names, titles, statuses) { 
-// Your code here 
-  let arr = [...titles, ...names, ...statuses];
-  let idArr = arr.map(item=>item.id)
-  let unique = new Set(idArr);
-  let uniqueIdArr = Array.from(unique);
-  let resultArr = [];
-  uniqueIdArr.forEach(id=>{
-	let filtered = arr.filter(item=>item.id===id);
-	let obj = filtered.reduce((acc,it)=>({...acc, ...it}),{});
-	resultArr.push(obj);
+// function gatherItems(names, titles, statuses) { 
+// // Your code here 
+//   let arr = [...titles, ...names, ...statuses];
+//   let idArr = arr.map(item=>item.id)
+//   let unique = new Set(idArr);
+//   let uniqueIdArr = Array.from(unique);
+//   let resultArr = [];
+//   uniqueIdArr.forEach(id=>{
+// 	let filtered = arr.filter(item=>item.id===id);
+// 	let obj = filtered.reduce((acc,it)=>({...acc, ...it}),{});
+// 	resultArr.push(obj);
 
-});
-return resultArr;
+// });
+// return resultArr;
 
-}; 
+// }; 
 
-console.log(gatherItems(names, titles, statuses))
+// console.log(gatherItems(names, titles, statuses))
 
 // [ { id: 1, title: 't1', name: 'n1', status: 's1' },
 //   { id: 5, title: 't5', name: 'n5' },
 //   { id: 3, name: 'n3', status: 's3' },
 //   { id: 8, status: 's8' } ]
 
-function func(...args) {
-	const accum = [...args.flat()];
-	const result = {};
-	accum.forEach((item) => {
-	  result[item.id] = { ...result?.[item.id], ...item };
-	});
-	console.log(result)
-	return Object.values(result);
+// function func(...args) {
+// 	const accum = [...args.flat()];
+// 	const result = {};
+// 	accum.forEach((item) => {
+// 	  result[item.id] = { ...result?.[item.id], ...item };
+// 	});
+// 	console.log(result)
+// 	return Object.values(result);
+//   }
+
+//   console.log(func(names, titles, statuses))
+
+// TODO Семантика HTML
+// 1 Доступность — вы получаете функциональность доступности  «из коробки», например используя тег button вместо div
+// мы получаем встроенные стили и встроенную доступность с клавиатуры: между button можно передвигаться с помощью кнопки Tab и активировать, используя Enter.
+// 2 Лучше для мобильных — семантический HTML легче по размеру, чем не семантический спагетти-код, и его легче сделать адаптивным
+// 3 Хорошо для SEO — поисковики уделяют больше внимания ключевым словам внутри заголовков, ссылок и т.д., чем ключевым словам, помещённым в не семантический 
+// <div> и т.д., поэтому клиентам будет проще найти ваш сайт
+// Элемент <em> акцентирует сильное выделение на тексте, а элемент <i> определяет текст, который будет выражен альтернативным голосом или тоном
+// атрибут alt для img для ридеров даёт возможность прочитать описание картинки.
+// <header>, <nav>, <article>, <section>, <aside> и <footer>. - структурная семантика
+// текстовая семантика -- <strong><b>жирный<em><i>курсив,<ins> <u> подчеркнутый <del> <s> зачеркнутый текст <mark>-выделенный <abbr> абревеатуры 
+// <pre><code>Представление фрагментов кода <cite> <q> <blockquote>цитаты
+// WAI-ARIA (Web Accessibility Initiative — Accessible Rich Internet Applications) является спецификацией, которая помогает сделать веб-страницы и приложения
+//  более доступными для людей с ограниченными возможностями. В частности, WAI-ARIA помогает определить роли (что блоки содержимого делают), 
+// состояния (как блоки содержимого настроены), а также дополнительные свойства для поддержки вспомогательных технологий.
+// Установка ролей WAI-ARIA осуществляется с помощью атрибута role. Эти роли затем указывают, что определённые элементы и блоки содержимого делают на странице.
+// Крупные смысловые блоки на каждой странице сайта. Теги: <header>, <main>, <footer>.
+// Крупные смысловые разделы в блоках. Теги: <nav>, <section>, <article>, <aside>.
+// Заголовок всего документа и заголовки смысловых разделов. Теги: <h1>-<h6>.
+// Мелкие элементы в смысловых разделах. Списки, таблицы, демо-материалы, параграфы и переносы, формы, цитаты, контактная информация и прогресс.
+// Фразовые элементы. Изображения, ссылки, кнопки, видео, время и мелкие текстовые элементы.
+// Можете дать имя разделу и вынести этот раздел на другой сайт? — <article>
+// Можете дать имя разделу, но вынести на другой сайт не можете? — <section></section>
+// Не можете дать имя? Получается что-то наподобие «новости и фотогалерея» или «правая колонка»? — <div>
+
+
+const comments = [ 
+	{author: 'John', date: '23.04.2018', text: 'Cool', rating: 0},
+	{author: 'Carl', date: '23.04.2018', text: 'Hello', rating: 3},
+	{author: 'John', date: '23.04.2018', text: 'Lorem ipsulum', rating: 5},
+	{author: 'Melory', date: '23.04.2018', text: 'Very Well!', rating: 0},
+  ];
+  
+//   const commentsByAuthor = groupByAuthor(comments); 
+  
+  // {
+  // 'John': [ {author: 'John', date: '23.04.2018', text: 'Cool', rating: 0},  {author: 'John', date: '23.04.2018', text: 'Lorem ipsulum', rating: 5}],
+  // 'Melory: [ {author: 'Melory', date: '23.04.2018', text: 'Very Well!', rating: 0}]',
+  // 'Carl' : [{author: 'Carl', date: '23.04.2018', text: 'Hello', rating: 3}]
+  //}
+  
+  
+  function getCommentsByAuthor (comments){
+	  
+	  let result = {};
+	  
+	  comments.forEach((comment)=>{
+
+		if(result[comment.author]) result[comment.author] = [...result[comment.author], comment]
+		else result[comment.author] = [comment]
+	
+	})
+	  
+	  return result
+	  
   }
 
-  console.log(func(names, titles, statuses))
+  console.log(getCommentsByAuthor(comments))
+  

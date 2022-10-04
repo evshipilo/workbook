@@ -1,0 +1,8 @@
+.field{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 155px;
+	height: 155px;
+}
+
