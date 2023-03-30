@@ -42,33 +42,48 @@
 //  взаимозависимость модулей.
 
 // TODO Event Loop -- JS однопоточный, одновременно выполняет только 1 задачу.
-// При вызове функций создаются контексты их выполнения (лексическое окружение + this), которые помещаются в стек вызовов, по мере выполнения функций 
+// При вызове функций создаются контексты их выполнения (лексическое окружение + this), которые помещаются в стек вызовов, по мере выполнения функций
 // контексты удаляются из стека. Однако выполнение некоторых функций может быть отложено во времени (SetTimeout, EventListeners, Promise)
 // Чтобы не блокировать стек дожидаясь выполнения асинхронных операций, такие функции удаляются из стека, а их колбеки и обработчики попадают в webAPI,
 // При достижении определенного события (клик, таймер, резолв) колбэки попадают в очередь макрозадач, обработчики промисов в очерель микрозадач.
 // Здесь и работает EventLoop по алгоритму
 // -- Если стек пуст - проверяем очередь микрозадач. Если там есть задачи - помещаем 1 задачу в стек и выполняем
-// -- Если нету - проверяем очередь макрозадач. Если там есть задачи - помещаем 1 звдвчу в стек и выполняем. 
+// -- Если нету - проверяем очередь макрозадач. Если там есть задачи - помещаем 1 звдвчу в стек и выполняем.
 // -- Повторяем сначала!
 
 //TODO Каждая функция javascript при вызове получает ссылку на текущий контекст выполнения, называемый this.
-//	В строгом режиме значение этого ключевого слова по умолчанию undefined, не в строгом - глобальный объект (window в браузере)
-//	это называется привязкой по умолчанию для этого ключевого слова.
-//	Если мы вызываем функцию как метод обьекта, this становится этим объектом - это неявная привязка this.
-//	Явная привязка this f.call(context,arg1,arg2...) f.apply(context,[arg1,arg2...]) f.bind(context,arg1,arg2...)
-//	Ключевое слово new перед любой функцией превращает вызов функции в вызов конструктора, при этом
-//	создается новый пустой объект, и этот обьект присваивается this, код функции обычно модифицирует this, возвращается значение this
-//	Приоритет привязок ключевого слова this:
-//	1) вызывается ли функция с ключевым словом new.
-//	2) вызывается ли функция с помощью метода call () или apply (), что означает явную привязку
-//	3) вызывается ли функция как метод обьекта (неявная привязка).
-//	4) значение this по умолчанию (глобальный обьект или undefined)
-//	Если метод передаётся отдельно от объекта – this теряется. a=obj.doSomething; a();
-//	 Стрелочные функции не имеют собственного значения this. Они копируют значение this и arguments из внешней функции
-//	И это поведение нельзя изменить с помощью функций call или bind.
-//	Стрелочные функции удобно использовать внутри обычных функций тк интуитивно понятно какое значение this они используют
-//	В IIFE, функциях, которые создаются в глобальной области видимости, анонимных функциях
-//	и внутренних функциях методов объекта значением this по умолчанию является объект window.
+// В пределах функции значение this зависит от того, каким образом вызвана функция.
+// В строгом режиме значение этого ключевого слова по умолчанию undefined, не в строгом - глобальный объект (window в браузере или global в ноде)
+// это называется привязкой по умолчанию для этого ключевого слова.
+// Если мы вызываем функцию как метод обьекта, this становится этим объектом - это неявная привязка this.
+// Явная привязка this f.call(context,arg1,arg2...) f.apply(context,[arg1,arg2...]) f.bind(context,arg1,arg2...)
+// Ключевое слово new перед любой функцией превращает вызов функции в вызов конструктора, при этом
+// создается новый пустой объект, и этот обьект присваивается this, код функции обычно модифицирует this, возвращается значение this
+// Приоритет привязок ключевого слова this:
+// 1) вызывается ли функция с ключевым словом new.
+// 2) вызывается ли функция с помощью метода call () или apply (), что означает явную привязку
+// 3) вызывается ли функция как метод обьекта (неявная привязка).
+// 4) значение this по умолчанию (глобальный обьект или undefined)
+// Если метод передаётся отдельно от объекта – this теряется. a=obj.doSomething; a();
+//  Стрелочные функции не имеют собственного значения this. Они копируют значение this и arguments из внешней функции
+// И это поведение нельзя изменить с помощью функций call или bind.
+// Стрелочные функции удобно использовать внутри обычных функций тк интуитивно понятно какое значение this они используют
+// В IIFE, функциях, которые создаются в глобальной области видимости, анонимных функциях
+// и внутренних функциях методов объекта значением this по умолчанию является объект window.
+// В глобальном контексте выполнения (за пределами каких-либо функций) this ссылается на глобальный объект вне зависимости от режима (строгий или нестрогий).
+
+// let i = 1;
+// function Counter() {
+//   this.i = i++; // если функция вызывается без new, то this - глобальныя обьект
+// }
+// Counter();
+// Counter();
+// console.log(Counter().i); //counter вызывается без new, не создает обьект. Uncaught TypeError: Cannot read properties of undefined (reading 'i')
+// console.log(this.i); // this - глобальный обьект, 3 - потому что i++ постфикс, сначала в this.i присваивается i, a потом и увелич на 1.
+// console.log(i); // ++i увеличивает i на 1, получилось  4
+// let obj = new Counter();
+// console.log(obj.i); //4, функция вызвалась как конструктор
+// console.log(i); // 5
 
 // TODO замыкание — это способность функции во время создания запоминать лексическое окружение - ссылки на переменные и параметры, находящиеся в
 //  текущей области видимости и во внешних областях видимости. Все функции «при рождении» получают скрытое свойство [[Environment]], которое
@@ -83,7 +98,7 @@
 //        return count;
 //    }
 // }
-// 
+//
 // let counter=counterInit(1);
 // //console.log(count);//ReferenceError
 // console.log(counter());//1
@@ -126,6 +141,32 @@
 //outerVar = 'outer-2'
 //globalVar = 'guess'
 //x('inner')
+
+//TODO примеси
+// let sayHiMixin = {
+// 	sayHi() {
+// 	  alert(`Привет, ${this.name}`);
+// 	},
+// 	sayBye() {
+// 	  alert(`Пока, ${this.name}`);
+// 	}
+//   };
+
+//   // использование:
+//   class User {
+// 	constructor(name) {
+// 	  this.name = name;
+// 	}
+//   }
+//   class User extends Person {
+// 	// ...
+// 	}
+
+//   // копируем методы
+//   Object.assign(User.prototype, sayHiMixin);
+
+//   // теперь User может сказать Привет
+//   new User("Вася").sayHi(); // Привет, Вася!
 
 // TODO Паттерны проектирования (Порождающие, Структурные, Поведенческие)
 //  1)«Синглтон» (Singleton) представляет собой объект, который может существовать лишь в единственном экземпляре. Позволяет не нарушать SRP.
@@ -216,7 +257,7 @@
 //	unsubscribe(fn) {	this.observers = this.observers.filter(subscriber => subscriber !== fn)	}
 //	dispatch(data) {
 //		this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
-		//  передавая ей в параметры данные из параметров метода dispatch
+//  передавая ей в параметры данные из параметров метода dispatch
 //	}
 //}
 //
@@ -284,7 +325,6 @@
 //  угодно, any произвольный тип, void функция не возвращает ничего, Null, Undefined, Never тип возвращаемого значения для  функций которые
 //  генерируют или возвращают ошибку, Object, Symbol.   as - утверждение типа, Jenerics - параметр типа, interface - определяет свойства и методы,
 //  которые объект должен реализовать.
-
 
 //let obj = {
 //  name: 'Tor',
@@ -992,14 +1032,14 @@
 //  function CreateStore() {
 //   const subscribers = []
 //   let state = {}
- 
+
 //   function reducer(state, action) {
 //     if (action.type === 'change') {
 //       return {...state, text: action.payload}
 //     }
 //     return state
 //   }
- 
+
 //   return {
 //     subscribe(callback) {
 //       subscribers.push(callback)
@@ -1013,15 +1053,15 @@
 //     }
 //   }
 //  }
- 
+
 //  const store = CreateStore()
 //  const textField = document.querySelector('.textField')
 //  const countField = document.querySelector('.countField')
- 
+
 //  textField.addEventListener('keyup', () => {
 //   store.dispatch({type: 'change', payload: textField.value})
 //  })
- 
+
 //  store.subscribe(() => {
 //   countField.innerHTML = store.getState().text.length
 //  })
@@ -1130,14 +1170,12 @@
 //   "3": ["A"],
 // }))
 
-// const titles = [{id: 1, title: 't1'}, {id: 5, title: 't5'}]; 
-// const names = [{id: 1, name: 'n1'},{id: 5, name: 'n5'}, {id: 3, name: 'n3'}]; 
-// const statuses = [{id: 1, status: 's1'}, {id: 3, status: 's3'}, {id: 8, status: 's8'}]; 
+// const titles = [{id: 1, title: 't1'}, {id: 5, title: 't5'}];
+// const names = [{id: 1, name: 'n1'},{id: 5, name: 'n5'}, {id: 3, name: 'n3'}];
+// const statuses = [{id: 1, status: 's1'}, {id: 3, status: 's3'}, {id: 8, status: 's8'}];
 
- 
-
-// function gatherItems(names, titles, statuses) { 
-// // Your code here 
+// function gatherItems(names, titles, statuses) {
+// // Your code here
 //   let arr = [...titles, ...names, ...statuses];
 //   let idArr = arr.map(item=>item.id)
 //   let unique = new Set(idArr);
@@ -1151,7 +1189,7 @@
 // });
 // return resultArr;
 
-// }; 
+// };
 
 // console.log(gatherItems(names, titles, statuses))
 
@@ -1176,15 +1214,15 @@
 // 1 Доступность — вы получаете функциональность доступности  «из коробки», например используя тег button вместо div
 // мы получаем встроенные стили и встроенную доступность с клавиатуры: между button можно передвигаться с помощью кнопки Tab и активировать, используя Enter.
 // 2 Лучше для мобильных — семантический HTML легче по размеру, чем не семантический спагетти-код, и его легче сделать адаптивным
-// 3 Хорошо для SEO — поисковики уделяют больше внимания ключевым словам внутри заголовков, ссылок и т.д., чем ключевым словам, помещённым в не семантический 
+// 3 Хорошо для SEO — поисковики уделяют больше внимания ключевым словам внутри заголовков, ссылок и т.д., чем ключевым словам, помещённым в не семантический
 // <div> и т.д., поэтому клиентам будет проще найти ваш сайт
 // Элемент <em> акцентирует сильное выделение на тексте, а элемент <i> определяет текст, который будет выражен альтернативным голосом или тоном
 // атрибут alt для img для ридеров даёт возможность прочитать описание картинки.
 // <header>, <nav>, <article>, <section>, <aside> и <footer>. - структурная семантика
-// текстовая семантика -- <strong><b>жирный<em><i>курсив,<ins> <u> подчеркнутый <del> <s> зачеркнутый текст <mark>-выделенный <abbr> абревеатуры 
+// текстовая семантика -- <strong><b>жирный<em><i>курсив,<ins> <u> подчеркнутый <del> <s> зачеркнутый текст <mark>-выделенный <abbr> абревеатуры
 // <pre><code>Представление фрагментов кода <cite> <q> <blockquote>цитаты
 // WAI-ARIA (Web Accessibility Initiative — Accessible Rich Internet Applications) является спецификацией, которая помогает сделать веб-страницы и приложения
-//  более доступными для людей с ограниченными возможностями. В частности, WAI-ARIA помогает определить роли (что блоки содержимого делают), 
+//  более доступными для людей с ограниченными возможностями. В частности, WAI-ARIA помогает определить роли (что блоки содержимого делают),
 // состояния (как блоки содержимого настроены), а также дополнительные свойства для поддержки вспомогательных технологий.
 // Установка ролей WAI-ARIA осуществляется с помощью атрибута role. Эти роли затем указывают, что определённые элементы и блоки содержимого делают на странице.
 // Крупные смысловые блоки на каждой странице сайта. Теги: <header>, <main>, <footer>.
@@ -1196,37 +1234,64 @@
 // Можете дать имя разделу, но вынести на другой сайт не можете? — <section></section>
 // Не можете дать имя? Получается что-то наподобие «новости и фотогалерея» или «правая колонка»? — <div>
 
+// const comments = [
+//   { author: 'John', date: '23.04.2018', text: 'Cool', rating: 0 },
+//   { author: 'Carl', date: '23.04.2018', text: 'Hello', rating: 3 },
+//   { author: 'John', date: '23.04.2018', text: 'Lorem ipsulum', rating: 5 },
+//   { author: 'Melory', date: '23.04.2018', text: 'Very Well!', rating: 0 },
+// ];
 
-const comments = [ 
-	{author: 'John', date: '23.04.2018', text: 'Cool', rating: 0},
-	{author: 'Carl', date: '23.04.2018', text: 'Hello', rating: 3},
-	{author: 'John', date: '23.04.2018', text: 'Lorem ipsulum', rating: 5},
-	{author: 'Melory', date: '23.04.2018', text: 'Very Well!', rating: 0},
-  ];
-  
-//   const commentsByAuthor = groupByAuthor(comments); 
-  
-  // {
-  // 'John': [ {author: 'John', date: '23.04.2018', text: 'Cool', rating: 0},  {author: 'John', date: '23.04.2018', text: 'Lorem ipsulum', rating: 5}],
-  // 'Melory: [ {author: 'Melory', date: '23.04.2018', text: 'Very Well!', rating: 0}]',
-  // 'Carl' : [{author: 'Carl', date: '23.04.2018', text: 'Hello', rating: 3}]
-  //}
-  
-  
-  function getCommentsByAuthor (comments){
-	  
-	  let result = {};
-	  
-	  comments.forEach((comment)=>{
+//   const commentsByAuthor = groupByAuthor(comments);
 
-		if(result[comment.author]) result[comment.author] = [...result[comment.author], comment]
-		else result[comment.author] = [comment]
-	
-	})
-	  
-	  return result
-	  
-  }
+// {
+// 'John': [ {author: 'John', date: '23.04.2018', text: 'Cool', rating: 0},  {author: 'John', date: '23.04.2018', text: 'Lorem ipsulum', rating: 5}],
+// 'Melory: [ {author: 'Melory', date: '23.04.2018', text: 'Very Well!', rating: 0}]',
+// 'Carl' : [{author: 'Carl', date: '23.04.2018', text: 'Hello', rating: 3}]
+//}
 
-  console.log(getCommentsByAuthor(comments))
-  
+// function getCommentsByAuthor(comments) {
+//   let result = {};
+
+//   comments.forEach((comment) => {
+//     if (result[comment.author])
+//       result[comment.author] = [...result[comment.author], comment];
+//     else result[comment.author] = [comment];
+//   });
+
+//   return result;
+// }
+
+// console.log(getCommentsByAuthor(comments));
+
+// function aaa() {
+//   console.log(1);
+
+//   setTimeout(() => console.log(2), 1);
+//   setTimeout(() => console.log(3), 10);
+
+//   Promise.resolve(4).then((result) => console.log(result));
+
+//   Promise.resolve(5).then((result) => setTimeout(() => console.log(result), 0));
+
+//   process.nextTick(() => console.log(7));
+//   return 8;
+// } //1874253 node js event loop
+
+// function delay(ms, v) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => resolve(v), ms);
+//   });
+// }
+
+// function bbb() {
+//   delay(1000, 'Hello! from function').then((data) => console.log(data));
+//   setTimeout(() => console.log('Hello from timeout'), 1000);
+//   setImmediate(() => console.log('Hello from immediate'));
+//   process.nextTick(() => console.log('Hello from next tick!'));
+//   console.log("sync")
+// } 
+//sync
+//Hello from next tick!
+//Hello from immediate
+//Hello! from function
+//Hello from timeout
