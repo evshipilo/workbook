@@ -4,16 +4,16 @@
 // Для наглядности и упрощения в примерах будем использовать обычные JS функции, но все это актуально для 
 // функций конструкторов и для классов.
 
-function user(name, age) {
-    return {name, age}
-}
+// function user(name, age) {
+//     return {name, age}
+// }
 
-function checkUser(userName, userAge) {
-    const user = user(userName, userAge);
-    // actions with the user object
-}
+// function checkUser(userName, userAge) {
+//     const user = user(userName, userAge);
+//     // actions with the user object
+// }
 
-checkUser('John', 30);
+// checkUser('John', 30);
 
 // У нас типичная ситуация, с которой часто встречаются разработчики,
 // функция user возвращает обьект, а функции checkUser необходим этот обьект для правильной 
@@ -25,16 +25,16 @@ checkUser('John', 30);
 // И все вроде бы хорошо, но такой подход иногда вызывает проблемы.
 // Давайте мы изменим функцию user (например добавим параметр surname)
 
-function user(name, surname, age) {
-    return {name, surname, age}
-}
+// function user(name, surname, age) {
+//     return {name, surname, age}
+// }
 
-function checkUser(userName, userSurname, userAge) {
-    const user = user(userName, userSurname, userAge);
-    // actions with the user object
-}
+// function checkUser(userName, userSurname, userAge) {
+//     const user = user(userName, userSurname, userAge);
+//     // actions with the user object
+// }
 
-checkUser('John', 'Adams', 30);
+// checkUser('John', 'Adams', 30);
 
 //  Мы видим, что после изменений в функции user, нам пришлось внести изменения и в функцию checkUser
 // чтобы она правильно работала с функцией user.
@@ -58,11 +58,11 @@ checkUser('John', 'Adams', 30);
 //попробуем альтернативный способ.
 //  Передадим нужные зависимости (т.е. обьект возвращаемый функцией user) в виде аргумента функции checkUser.
 
-function checkUser(user) {
-    // actions with the user object
-}
+// function checkUser(user) {
+//     // actions with the user object
+// }
 
-checkUser(user('John', 'Adams', 30));
+// checkUser(user('John', 'Adams', 30));
 
 // Такой подход называется внедрение зависимостей через аргументы функции или  через аргументы конструктора (для классов).
 // Теперь функции user и checkUser слабо связаны, имплементация checkUser не зависит от функции user.
@@ -111,25 +111,25 @@ checkUser(user('John', 'Adams', 30));
 // зависимостей в Angular. Мы разобрали его для 
 //  понимания базовой концепции внедрения зависимотей.
 
-@Injectable()
-class HeroService {
-    doSomething(){}
-}
+// @Injectable()
+// class HeroService {
+//     doSomething(){}
+// }
 
-@Component({
-    selector: 'hero-list',
-    template: '...',
-    providers: [HeroService]
-  })
-  class HeroListComponent {
-    constructor(private heroService: HeroService) {}
-    this.heroService.doSomething()
-  }
-
-
+// @Component({
+//     selector: 'hero-list',
+//     template: '...',
+//     providers: [HeroService]
+//   })
+//   class HeroListComponent {
+//     constructor(private heroService: HeroService) {}
+//     this.heroService.doSomething()
+//   }
 
 
+const a=1
 
+export default a
 
 
 

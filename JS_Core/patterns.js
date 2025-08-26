@@ -298,3 +298,4 @@ textField.addEventListener('keyup', () => {
      return text ? text.split('').length : 0
  }
 
+module.exports={a:1}

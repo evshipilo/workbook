@@ -1,3 +1,6 @@
+
+ import a from './simpleDI.js' 
+
 // TODO ООП - методология программирования, основанная на представлении программы в виде совокупности объектов,
 // каждый из которых является экземпляром определённого класса, а классы образуют иерархию наследования. Принципы:
 // 1) Инкапсуляция - сокрытие внутренней реализации обьекта от других обьектов и предоставление набора методов для взаимодействия с ним (API).
@@ -23,21 +26,26 @@
 // TODO Принципы чистого кода: DRY - don't repeat yourself (не повторяйся), KISS - keep it simple stupid (упрощай код), YAGNI - не создавай не нужное
 
 // TODO SOLID способствует созданию такого приложения, которое будет легко поддерживать и расширять в течение долгого времени. ota-solid.vercel.app
-//  1)Принцип единственной ответственности (Single Responsibility Principle, SRP) - У модуля должна быть только одна причина для  изменения. Те
+//  1)Принцип единственной ответственности (Single Responsibility Principle, SRP) - 
+//У модуля должна быть только одна причина для  изменения. Те
 //  если компонент отвечает за поведение кнопки то единственной причиной для его изменения должно быть изменение бизнес требований к поведению
 //  этой кнопки. При изменении какого-либо бизнес требования к приложению вся функциональность которая требует изменения должна быть собрана в 1
 //  модуле. Принцип позволяет уменьшить количество кода, который  нужно  менять при изменении бизнес-правил.
-//  2)Принцип открытости-закрытости (Open-Closed Principle, OCP) - модули должны быть открыты для расширения , но закрыты для изменения.  открыты
+//  2)Принцип открытости-закрытости (Open-Closed Principle, OCP) - 
+//модули должны быть открыты для расширения , но закрыты для изменения.  открыты
 //  для расширения — их функциональность может быть дополнена, если изменятся требования; закрыты для изменения —
 //  расширение функциональности модуля не должно приводить к изменения в других модулях, которые его используют иначе маленькое изменение в одном
 //  модуле станет причиной кучи изменений в других.
-//  3) Принцип подстановки Барбары Лисков (Liskov Substitution Principle, LSP) - классы-наследники не  должны  противоречить базовому классу.
+//  3) Принцип подстановки Барбары Лисков (Liskov Substitution Principle, LSP) - 
+//классы-наследники не  должны  противоречить базовому классу.
 //  Например, они не могут предоставлять интерфейс ýже базового. Функций, которые используют базовый класс должны правильно работать и с наследниками.
-//  4)Принцип разделения интерфейса (Interface Segregation Principle, ISP) - Сущности не должны зависеть от интерфейсов, которые они не
-//  используют. ISP содержит правила и ограничения, которые помогают справиться  проблемой, когда при наследовании класс-потомок получает вместе с
+//  4)Принцип разделения интерфейса (Interface Segregation Principle, ISP) - 
+//Сущности не должны зависеть от интерфейсов, которые они не используют. 
+// ISP содержит правила и ограничения, которые помогают справиться  проблемой, когда при наследовании класс-потомок получает вместе с
 //  нужной функциональностью кучу неиспользуемой и ненужной. ISP помогает проектировать интерфейсы так, чтобы их изменения затрагивали только те
 //  модули, на функциональность которых они действительно влияют. Чаще всего это заставляет интерфейсы дробить (разделять).
-//  5) Принцип инверсии зависимостей (Dependency Inversion Principle, DIP) - Высокоуровневые модули не должны зависеть от низкоуровневых; оба типа
+//  5) Принцип инверсии зависимостей (Dependency Inversion Principle, DIP) - 
+//Высокоуровневые модули не должны зависеть от низкоуровневых; оба типа
 //  должны зависеть от абстракций. Абстракции не должны зависеть от деталей, детали должны зависеть от абстракций. DIP помогает снизить
 //  взаимозависимость модулей.
 
@@ -47,34 +55,14 @@
 // Чтобы не блокировать стек дожидаясь выполнения асинхронных операций, такие функции удаляются из стека, а их колбеки и обработчики попадают в webAPI,
 // При достижении определенного события (клик, таймер, резолв) колбэки попадают в очередь макрозадач, обработчики промисов в очерель микрозадач.
 // Здесь и работает EventLoop по алгоритму
-// -- Если стек пуст - проверяем очередь микрозадач. Если там есть задачи - помещаем 1 задачу в стек и выполняем
+// -- Если стек пуст - проверяем очередь микрозадач. Если там есть задачи - помещаем в стек и выполняем все задачи.
 // -- Если нету - проверяем очередь макрозадач. Если там есть задачи - помещаем 1 звдвчу в стек и выполняем.
 // -- Повторяем сначала!
 
 //TODO Каждая функция javascript при вызове получает ссылку на текущий контекст выполнения, называемый this.
-// В пределах функции значение this зависит от того, каким образом вызвана функция.
-// В строгом режиме значение этого ключевого слова по умолчанию undefined, не в строгом - глобальный объект (window в браузере или global в ноде)
-// это называется привязкой по умолчанию для этого ключевого слова.
-// Если мы вызываем функцию как метод обьекта, this становится этим объектом - это неявная привязка this.
-// Явная привязка this f.call(context,arg1,arg2...) f.apply(context,[arg1,arg2...]) f.bind(context,arg1,arg2...)
-// Ключевое слово new перед любой функцией превращает вызов функции в вызов конструктора, при этом
-// создается новый пустой объект, и этот обьект присваивается this, код функции обычно модифицирует this, возвращается значение this
-// Приоритет привязок ключевого слова this:
-// 1) вызывается ли функция с ключевым словом new.
-// 2) вызывается ли функция с помощью метода call () или apply (), что означает явную привязку
-// 3) вызывается ли функция как метод обьекта (неявная привязка).
-// 4) значение this по умолчанию (глобальный обьект или undefined)
-// Если метод передаётся отдельно от объекта – this теряется. a=obj.doSomething; a();
-//  Стрелочные функции не имеют собственного значения this. Они копируют значение this и arguments из внешней функции
-// И это поведение нельзя изменить с помощью функций call или bind.
-// Стрелочные функции удобно использовать внутри обычных функций тк интуитивно понятно какое значение this они используют
-// В IIFE, функциях, которые создаются в глобальной области видимости, анонимных функциях
-// и внутренних функциях методов объекта значением this по умолчанию является объект window.
-// В глобальном контексте выполнения (за пределами каких-либо функций) this ссылается на глобальный объект вне зависимости от режима (строгий или нестрогий).
-
 // let i = 1;
 // function Counter() {
-//   this.i = i++; // если функция вызывается без new, то this - глобальныя обьект
+//   this.i = i++; // если функция вызывается без new, то this - глобальныя обьект или undefined в строгом режиме
 // }
 // Counter();
 // Counter();
@@ -85,247 +73,6 @@
 // console.log(obj.i); //4, функция вызвалась как конструктор
 // console.log(i); // 5
 
-// TODO замыкание — это способность функции во время создания запоминать лексическое окружение - ссылки на переменные и параметры, находящиеся в
-//  текущей области видимости и во внешних областях видимости. Все функции «при рождении» получают скрытое свойство [[Environment]], которое
-//  ссылается на лексическое окружение места, где они были созданы. Лексическое окружение - обьект в котором содержаться локальные переменные и
-//  ссылка на внешнее лексическое окружение. В стек вызовов попадают контексты выполнения функций, которые состоят из значения this и лексического
-//  окружения  = [[Environment]].
-
-// function counterInit(increment) {
-//    let count = 0;
-//    return function () {
-//        count=count+increment;
-//        return count;
-//    }
-// }
-//
-// let counter=counterInit(1);
-// //console.log(count);//ReferenceError
-// console.log(counter());//1
-// console.log(counter());//2
-// console.log(counter());//3
-
-// TODO Область видимости — это место, откуда мы имеем доступ к переменным или функциям. JS имеем три типа областей видимости: глобальная,
-//  функциональная и блочная (ES6). Для функции область видимости смотрим по месту обьявления функции. Функция навсегда запоминает ссылку на
-//  лексическое окружение, где она была создана. Получаем свежие значения переменных
-
-//let cc=500
-//function out() {
-//  let aa = 300
-//
-//       function inn() {
-//        let bb = 200
-//        console.log(aa, bb, cc)
-//    }
-//
-//    aa=350
-//    inn()
-//}
-//
-//let aa = 1, bb = 2
-//cc=600
-//out()
-//
-//
-//let globalVar = 'global'
-//let outerVar = 'outer'
-//
-//function outerFunc(outerParam) {
-//    function innerFunc(innerParam) {
-//        console.log(globalVar, outerParam, innerParam)//guess outer inner
-//    }
-//    return innerFunc
-//}
-//
-//const x = outerFunc(outerVar)
-//outerVar = 'outer-2'
-//globalVar = 'guess'
-//x('inner')
-
-//TODO примеси
-// let sayHiMixin = {
-// 	sayHi() {
-// 	  alert(`Привет, ${this.name}`);
-// 	},
-// 	sayBye() {
-// 	  alert(`Пока, ${this.name}`);
-// 	}
-//   };
-
-//   // использование:
-//   class User {
-// 	constructor(name) {
-// 	  this.name = name;
-// 	}
-//   }
-//   class User extends Person {
-// 	// ...
-// 	}
-
-//   // копируем методы
-//   Object.assign(User.prototype, sayHiMixin);
-
-//   // теперь User может сказать Привет
-//   new User("Вася").sayHi(); // Привет, Вася!
-
-// TODO Паттерны проектирования (Порождающие, Структурные, Поведенческие)
-//  1)«Синглтон» (Singleton) представляет собой объект, который может существовать лишь в единственном экземпляре. Позволяет не нарушать SRP.
-
-//let instance = null;
-//function User(name) {
-//	if(instance) { return instance;	}
-//	instance = this;
-//	this.name = name;
-//	return instance;
-//}
-//const user1 = new User('Peter');
-//const user2 = new User('Mark');
-//console.log(user1 === user2);
-
-// TODO 2) «Фабрика» может быть использован в том случае, если нужно создавать различные объекты в зависимости от специфических условий.
-
-//class Car{
-//	constructor(options) { this.doors7 = options.doors;	}
-//}
-//class Truck {
-//	constructor(options) { this.doors = options.doors;	}
-//}
-//class VehicleFactory {
-//	createVehicle(options) {
-//		if(options.vehicleType === 'car') {
-//			return new Car(options);
-//		} else if(options.vehicleType === 'truck') {
-//			return new Truck(options);
-//		}
-//	}
-//}
-//
-//const factory = new VehicleFactory();
-//const car = factory.createVehicle({
-//	vehicleType: 'car',
-//	doors: 4
-//});
-//const truck= factory.createVehicle({
-//	vehicleType: 'truck',
-//	doors: 2
-//});
-//console.log(car);
-//console.log(truck);
-
-// TODO Структурные паттерны «Декоратор» (Decorator) используется для расширения функционала объектов без модификации существующих классов  или
-//  функций-конструкторов.
-
-//class Bike {
-//	constructor() {
-//		this.weels = 2
-//	}
-//}
-//
-//function speedy(bike) { // функция декоратор
-//	bike.speed = 100
-//}
-//
-//let honda = new Bike()
-//speedy(honda)
-//console.log(honda)
-//
-//// TODO Кеширующий декоратор
-//
-//function makeCaching(f) {
-//	let cache = {}
-//	return function(a) {
-//		if (a in cache) {
-//			return cache[a]
-//		} else {
-//			cache[a] = f(a);
-//			return cache[a];
-//		}
-//	}
-//}
-
-// TODO Адаптер — это структурный паттерн проектирования, который позволяет взаимодействовать объектам с несовместимыми интерфейсами.
-
-// TODO Фасад — это структурный паттерн проектирования, который предоставляет простой интерфейс к сложной системе обьектов.
-
-// TODO Поведенческие паттерны: Наблюдатель — это поведенческий паттерн проектирования, который создаёт механизм подписки, позволяющий одним объектам
-//  следить и реагировать  на события, происходящие в других объектах.
-
-//class EventObserver {
-//	constructor() {	this.observers = []  //массив подписчиков (массив функций которые вызываются при срабатывании метода dispatch)
-//		}
-//	subscribe(fn) {	this.observers.push(fn)	}
-//	unsubscribe(fn) {	this.observers = this.observers.filter(subscriber => subscriber !== fn)	}
-//	dispatch(data) {
-//		this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
-//  передавая ей в параметры данные из параметров метода dispatch
-//	}
-//}
-//
-// function createObserver() {
-//   const subscribers = []
-//
-//   return {
-//     subscribe(callback) {
-//       subscribers.push(callback)
-//     },
-//     dispatch(data) {
-//       subscribers.forEach(subscriber => subscriber(data))
-//     }
-//   }
-// }
-//
-// const observer = createObserver()
-// const textField = document.querySelector('.textField')
-// const countField = document.querySelector('.countField')
-// textField.addEventListener('keyup', () => {
-//   observer.dispatch(textField.value)
-// })
-// observer.subscribe((data) => {
-//   countField.innerHTML = data.length
-// })
-
-// TODO карринг Каррирование – это трансформация функций таким образом, чтобы они принимали аргументы не как f(a, b, c), а как f(a)(b)(c)
-// function out(a) {
-//     return function (b) {
-//         return a * b;
-//     }
-// }
-//
-// console.log(out(2)(3));
-// let out5 = out(5);
-// console.log(out5(3),out5(5));
-//
-// function curry(func) {
-//
-//     return function curried(...args) {   //возвращаем функцию curried с некоторым набором аргументов
-//         if (args.length >= func.length) {  //если количество переданных аргументов >= количеству аргументов каррируемой функции
-//             return func(...args); //то вызываем func с этими аргументами и всё
-//         } else {
-//             return function(...args2) {    // иначе возвращаем новую функцию с некоторым набором аргументов
-//                 return curried(...args,...args2); // кторая рекурсивно вызывает функцию curried с обьединённым набором аргументов
-//                          // и так далее пока не выполнится первое условие
-//            }
-//         }
-//     }
-// }
-//
-// function sum(a, b, c) {
-//     return a + b + c;
-// }
-//
-// let curriedSum = curry(sum);
-//
-// console.log( curriedSum(1, 2, 3) ); // 6, всё ещё можно вызывать нормально
-// console.log( curriedSum(1)(2,3) ); // 6, каррирование первого аргумента
-// console.log( curriedSum(1)(2)(3) ); // 6, каррирование всех аргументов
-
-// TODO  TYPESCRIPT. Это не самостоятельный язык программирования, а надмножество JS, компилируется в JS. достоинства: Строгая типизация, компилятор и
-//  IDE сразу подскажут ошибки до запуска JS, Помощь в предотвращении багов; Если код компилируется, высок процент вероятности, что он работает
-//  string, number, boolean, Arrays, Tuple let x:[string, number], Enum перечисления, Unknown эта переменная может быть чем
-//  угодно, any произвольный тип, void функция не возвращает ничего, Null, Undefined, Never тип возвращаемого значения для  функций которые
-//  генерируют или возвращают ошибку, Object, Symbol.   as - утверждение типа, Jenerics - параметр типа, interface - определяет свойства и методы,
-//  которые объект должен реализовать.
-
 //let obj = {
 //  name: 'Tor',
 //  show() {
@@ -334,7 +81,7 @@
 //  gg: () => {
 //    console.log("->>>>> ", this);
 //  } //Если мы используем this внутри стрелочной функции,
-//  // то его значение берётся из внешней «нормальной» функции.
+// то его значение берётся из внешней «нормальной» функции.
 //}
 //
 //function ggg() {
@@ -387,101 +134,69 @@
 //obj.show = obj1.show1();//show1 вызвана для obj1 this===obj1 возвращаемая срел ф пролучает this из лексич окружения >> для нее теперь всегда this===obj1
 //obj1.show1()();//SURPRISE obj.show();//SURPRISE
 
-// TODO repeat()
+// TODO замыкание — это способность функции во время создания запоминать лексическое окружение - ссылки на переменные и параметры, находящиеся в
+//  текущей области видимости и во внешних областях видимости. Все функции «при рождении» получают скрытое свойство [[Environment]], которое
+//  ссылается на лексическое окружение места, где они были созданы. Лексическое окружение - обьект в котором содержаться локальные переменные и
+//  ссылка на внешнее лексическое окружение. В стек вызовов попадают контексты выполнения функций, которые состоят из значения this и лексического
+//  окружения  = [[Environment]].
 
-// function repeat(n) {
-//     let sum='';
-//     for(let a=0; a<n; a++){
-//         sum+=this;
-//     }
-// return sum;
+// function counterInit(increment) {
+//    let count = 0;
+//    return function () {
+//        count=count+increment;
+//        return count;
+//    }
 // }
 //
-// String.prototype.repeat=repeat;
+// let counter=counterInit(1);
+// //console.log(count);//ReferenceError
+// console.log(counter());//1
+// console.log(counter());//2
+// console.log(counter());//3
+
+// TODO Область видимости — это место, откуда мы имеем доступ к переменным или функциям. JS имеем три типа областей видимости: глобальная,
+//  функциональная(var) и блочная (ES6 const, let). Для функции область видимости смотрим по месту обьявления функции. Функция навсегда запоминает ссылку на
+//  лексическое окружение, где она была создана. Получаем свежие значения переменных.
+
+// let cc=500
+// function out() {
+//  let aa = 300
+
+//       function inn() {
+//        let bb = 200
+//        console.log(aa, bb, cc)
+//    }
+
+//    aa=350
+//    inn()
+// }
+
+// let aa = 1, bb = 2
+// cc=600
+// out()
 //
-// console.log('a'.repeat(3));
-// console.log((new String).__proto__.repeat)
-
-// TODO map() polyfill
-
-//Array.prototype.myMap=function(callback){
-//    let result=[]
-//    this.forEach(item=>{
-//        //result.push(callback(item))
-//		 result=[...result,callback(item)]
-//    })
-//    return result
+//
+//let globalVar = 'global'
+//let outerVar = 'outer'
+//
+//function outerFunc(outerParam) {
+//    function innerFunc(innerParam) {
+//        console.log(globalVar, outerParam, innerParam)//guess outer inner
+//    }
+//    return innerFunc
 //}
 //
-//let ss=[1,2,3,4,5].myMap(item=>++item)
-//console.log(ss)//[2,3,4,5,6]
+//const x = outerFunc(outerVar)
+//outerVar = 'outer-2'
+//globalVar = 'guess'
+//x('inner')
 
-// TODO filter() polyfill
-
-// Array.prototype.myFilter=function(callback){
-//     let result=[]
-//     this.forEach(item=>{
-//         if(callback(item)) result.push(item)
-//     })
-//     return result
-// }
-//
-// let res=[1,2,3,4,5,6].myFilter(item=>item>3)
-// console.log(res)
-
-//TODO reduce() polyfill
-
-// Array.prototype.myReduce=function(callback,initial=null){
-//     let result=initial
-//     this.forEach(item=>{
-//         result=callback(result,item)
-//     })
-//     return result
-// }
-// let res = [1,2,3,4,5].myReduce((accum,item)=>accum+item,10)
-// console.log('res',res)  //25
-
-// TODO bind polyfill
-
-// Function.prototype.myBind = function (context, ...args) {
-//     let that=this;  //that===notBindedFunction
-//     return function (...args2) {                //замыкание - возвращаемая ф запоминает context, ...args
-//         return that.apply(context, args.concat(args2));
-//     }
-// }
-//
-// let obj = {
-//     field: 100
-// }
-//
-// function notBindedFunction(a, b) {
-//     return a + b + this.field;
-// }
-//
-// let bindedFunction = notBindedFunction.myBind(obj, 10);
-//
-// console.log('------------',bindedFunction(20));   //130
-
-// TODO create polyfill
-
-// Object.prototype.myCreate=function (proto) {
-//     let obj={};
-//     obj.__proto__=proto
-//     //Object.setPrototypeOf(obj,proto);
-// return obj;
-// }
-//
-// let animal={
-//     leg: true
-// };
-//
-// let rabbit=Object.myCreate(animal);
-//
-// console.log(rabbit.leg);//true
-
-// TODO обьект __proto__ работаем как с обычным свойством, если не находим свойства в обьекте то ищем в __proto__, Операции записи/удаления
+// TODO Когда мы хотим прочитать свойство из object, а оно отсутствует, JavaScript автоматически берёт его из прототипа.
+// В программировании такой механизм называется «прототипным наследованием».  обьект __proto__ работаем как с обычным свойством,
+// если не находим свойства в обьекте то ищем в __proto__. Прототип может быть или обьектом или null. Операции записи/удаления
 //  работают  непосредственно с объектом, они не используют прототип (если это обычное свойство, а не сеттер), for..in перебирает как свои,  так и
 //  унаследованные свойства, Остальные методы получения ключей/значений работают только с собственными свойствами объекта
+// Object.setPrototypeOf(obj, prototype); Object.getPrototypeOf(obj) - современные способы чтения и установки прототипа
 
 // let animal={
 //     legs: true
@@ -510,25 +225,25 @@
 //TODO prototype  Значение F.prototype должно быть либо объектом, либо null. Другие значения не будут работать, По умолчанию все функции
 // имеют F.prototype = { constructor: F }, поэтому мы можем получить конструктор объекта через свойство "constructor"
 
-//let animal = {
+// let animal = {
 //    legs: true
-//}
-//
-//function Rabbit(name) {
+// }
+
+// function Rabbit(name) {
 //    this.name = name;
-//}
-//
-//function WildRabbit(){}
-//console.log(Rabbit.prototype)
-//Rabbit.prototype = animal;//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ обьект animal
-//console.log(Rabbit.prototype)
-//Rabbit.prototype.gotLegs=function(){return this.legs} //когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство gotLegs
-//Rabbit.prototype.nose=true//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство nose:true
-//console.log(Rabbit.prototype)
-//WildRabbit.prototype=Object.create(Rabbit.prototype)
-//let rabbit = new Rabbit('billy');
-//console.log('---->>>>',rabbit.legs, rabbit.name, rabbit.nose , rabbit.gotLegs(), rabbit.__proto__);//true billy true true  { legs: true, gotLegs:
-// [Function (anonymous)], nose: true }
+// }
+
+// function WildRabbit(){}
+// console.log(Rabbit.prototype)// { constructor: f }
+// Rabbit.prototype = animal;//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ обьект animal
+// console.log(Rabbit.prototype)
+// Rabbit.prototype.gotLegs=function(){return this.legs} //когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство gotLegs
+// Rabbit.prototype.nose=true//когда создадим обьект с помощью ф.конструктора запишем ему в __proto__ свойство nose:true
+// console.log(Rabbit.prototype)
+// WildRabbit.prototype=Rabbit.prototype
+// let rabbit = new Rabbit('billy');
+// console.log('---->>>>',rabbit.legs, rabbit.name, rabbit.nose , rabbit.gotLegs(), rabbit.__proto__);//true billy true true  { legs: true, gotLegs:
+
 
 //TODO PROMISE Многие функции в JavaScript асинхронные - результат их выполнения будет получен не сразу а через время. Раньше для работы с такими
 // функциями применяли колбеки, в функцию передавали колбек и при наступлении определенного отложенного во времени события (например
@@ -542,6 +257,13 @@
 // прикреплённый к промису методом then. Async/await Ключевое слово async перед объявлением функции: Обязывает её всегда возвращать промис.
 // Позволяет использовать await в теле этой функции. Ключевое слово await перед промисом заставит JavaScript дождаться его выполнения, после чего:
 // Если промис завершается с ошибкой, будет сгенерировано исключение, как если бы на этом месте находилось throw. Иначе вернётся результат промиса.
+// Генераторы, Обычные функции возвращают только одно-единственное значение (или ничего). Генераторы могут порождать (yield) множество значений одно 
+// за другим, по мере необходимости. Функция-генератор. Для объявления генератора используется специальная синтаксическая конструкция: 
+// function*, которая называется «функция-генератор». Когда такая функция вызвана, она не выполняет свой код. Вместо этого она возвращает специальный объект,
+// так называемый «генератор». Основным методом генератора является next(). При вызове он запускает выполнение кода до ближайшей инструкции 
+// yield <значение> (значение может отсутствовать, в этом случае оно предполагается равным undefined). 
+// По достижении yield выполнение функции приостанавливается, а соответствующее значение – возвращается во внешний код:
+// Результатом метода next() всегда является объект с двумя свойствами: value: значение из yield. done: true, если выполнение функции завершено, иначе false.
 
 //function loadScript(sourse, callback){  //передача колбека
 //	sourse.onload = callback(data)
@@ -759,6 +481,283 @@
 //	id: 42,
 //};
 //userId(user)
+
+//TODO примеси позволяют как бы наследоваться от нескольких обьектов
+// let sayHiMixin = {
+// 	sayHi() {
+// 	  alert(`Привет, ${this.name}`);
+// 	},
+// 	sayBye() {
+// 	  alert(`Пока, ${this.name}`);
+// 	}
+//   };
+
+//   // использование:
+//   class User {
+// 	constructor(name) {
+// 	  this.name = name;
+// 	}
+//   }
+//   class User extends Person {
+// 	// ...
+// 	}
+
+//   // копируем методы
+//   Object.assign(User.prototype, sayHiMixin);
+
+//   // теперь User может сказать Привет
+//   new User("Вася").sayHi(); // Привет, Вася!
+
+//TODO OBSERVER
+//class EventObserver {
+//	constructor() {	this.observers = []  //массив подписчиков (массив функций которые вызываются при срабатывании метода dispatch)
+//		}
+//	subscribe(fn) {	this.observers.push(fn)	}
+//	unsubscribe(fn) {	this.observers = this.observers.filter(subscriber => subscriber !== fn)	}
+//	dispatch(data) {
+//		this.observers.forEach(observer => observer(data)) //observer(data) -- вызываем каждую функцию из массива observers,
+//  передавая ей в параметры данные из параметров метода dispatch
+//	}
+//}
+//
+// function createObserver() {
+//   const subscribers = []
+//
+//   return {
+//     subscribe(callback) {
+//       subscribers.push(callback)
+//     },
+//     dispatch(data) {
+//       subscribers.forEach(subscriber => subscriber(data))
+//     }
+//   }
+// }
+//
+// const observer = createObserver()
+// const textField = document.querySelector('.textField')
+// const countField = document.querySelector('.countField')
+// textField.addEventListener('keyup', () => {
+//   observer.dispatch(textField.value)
+// })
+// observer.subscribe((data) => {
+//   countField.innerHTML = data.length
+// })
+
+// TODO карринг Каррирование – это трансформация функций таким образом, чтобы они принимали аргументы не как f(a, b, c), а как f(a)(b)(c)
+// function out(a) {
+//     return function (b) {
+//         return a * b;
+//     }
+// }
+//
+// console.log(out(2)(3));
+// let out5 = out(5);
+// console.log(out5(3),out5(5));
+//
+// function curry(func) {
+//
+//     return function curried(...args) {   //возвращаем функцию curried с некоторым набором аргументов
+//         if (args.length >= func.length) {  //если количество переданных аргументов >= количеству аргументов каррируемой функции
+//             return func(...args); //то вызываем func с этими аргументами и всё
+//         } else {
+//             return function(...args2) {    // иначе возвращаем новую функцию с некоторым набором аргументов
+//                 return curried(...args,...args2); // кторая рекурсивно вызывает функцию curried с обьединённым набором аргументов
+//                          // и так далее пока не выполнится первое условие
+//            }
+//         }
+//     }
+// }
+//
+// function sum(a, b, c) {
+//     return a + b + c;
+// }
+//
+// let curriedSum = curry(sum);
+//
+// console.log( curriedSum(1, 2, 3) ); // 6, всё ещё можно вызывать нормально
+// console.log( curriedSum(1)(2,3) ); // 6, каррирование первого аргумента
+// console.log( curriedSum(1)(2)(3) ); // 6, каррирование всех аргументов
+
+// TODO  TYPESCRIPT. Это не самостоятельный язык программирования, а надмножество JS, компилируется в JS. достоинства: Строгая типизация, компилятор и
+//  IDE сразу подскажут ошибки до запуска JS, Помощь в предотвращении багов; Если код компилируется, высок процент вероятности, что он работает
+//  string, number, boolean, Arrays, Tuple let x:[string, number], Enum перечисления, Unknown эта переменная может быть чем
+//  угодно, any произвольный тип, void функция не возвращает ничего, Null, Undefined, Never тип возвращаемого значения для  функций которые
+//  генерируют или возвращают ошибку, Object, Symbol.   as - утверждение типа, Jenerics - параметр типа, interface - определяет свойства и методы,
+//  которые объект должен реализовать.
+
+// TODO Паттерны проектирования (Порождающие, Структурные, Поведенческие)
+//  1)«Синглтон» (Singleton) представляет собой объект, который может существовать лишь в единственном экземпляре. Позволяет не нарушать SRP.
+
+//let instance = null;
+//function User(name) {
+//	if(instance) { return instance;	}
+//	instance = this;
+//	this.name = name;
+//	return instance;
+//}
+//const user1 = new User('Peter');
+//const user2 = new User('Mark');
+//console.log(user1 === user2);
+
+// TODO 2) «Фабрика» может быть использован в том случае, если нужно создавать различные объекты в зависимости от специфических условий.
+
+//class Car{
+//	constructor(options) { this.doors7 = options.doors;	}
+//}
+//class Truck {
+//	constructor(options) { this.doors = options.doors;	}
+//}
+//class VehicleFactory {
+//	createVehicle(options) {
+//		if(options.vehicleType === 'car') {
+//			return new Car(options);
+//		} else if(options.vehicleType === 'truck') {
+//			return new Truck(options);
+//		}
+//	}
+//}
+//
+//const factory = new VehicleFactory();
+//const car = factory.createVehicle({
+//	vehicleType: 'car',
+//	doors: 4
+//});
+//const truck= factory.createVehicle({
+//	vehicleType: 'truck',
+//	doors: 2
+//});
+//console.log(car);
+//console.log(truck);
+
+// TODO Структурные паттерны «Декоратор» (Decorator) используется для расширения функционала объектов без модификации существующих классов  или
+//  функций-конструкторов.
+
+//class Bike {
+//	constructor() {
+//		this.weels = 2
+//	}
+//}
+//
+//function speedy(bike) { // функция декоратор
+//	bike.speed = 100
+//}
+//
+//let honda = new Bike()
+//speedy(honda)
+//console.log(honda)
+//
+//// TODO Кеширующий декоратор
+//
+//function makeCaching(f) {
+//	let cache = {}
+//	return function(a) {
+//		if (a in cache) {
+//			return cache[a]
+//		} else {
+//			cache[a] = f(a);
+//			return cache[a];
+//		}
+//	}
+//}
+
+// TODO Адаптер — это структурный паттерн проектирования, который позволяет взаимодействовать объектам с несовместимыми интерфейсами.
+
+// TODO Фасад — это структурный паттерн проектирования, который предоставляет простой интерфейс к сложной системе обьектов.
+
+// TODO Поведенческие паттерны: Наблюдатель — это поведенческий паттерн проектирования, который создаёт механизм подписки, позволяющий одним объектам
+//  следить и реагировать  на события, происходящие в других объектах.
+
+
+// TODO repeat()
+// function repeat(n) {
+//     let sum='';
+//     for(let a=0; a<n; a++){
+//         sum+=this;
+//     }
+// return sum;
+// }
+//
+// String.prototype.repeat=repeat;
+//
+// console.log('a'.repeat(3));
+// console.log((new String).__proto__.repeat)
+
+// TODO map() polyfill
+
+//Array.prototype.myMap=function(callback){
+//    let result=[]
+//    this.forEach(item=>{
+//        //result.push(callback(item))
+//		 result=[...result,callback(item)]
+//    })
+//    return result
+//}
+//
+//let ss=[1,2,3,4,5].myMap(item=>++item)
+//console.log(ss)//[2,3,4,5,6]
+
+// TODO filter() polyfill
+
+// Array.prototype.myFilter=function(callback){
+//     let result=[]
+//     this.forEach(item=>{
+//         if(callback(item)) result.push(item)
+//     })
+//     return result
+// }
+//
+// let res=[1,2,3,4,5,6].myFilter(item=>item>3)
+// console.log(res)
+
+//TODO reduce() polyfill
+
+// Array.prototype.myReduce=function(callback,initial=null){
+//     let result=initial
+//     this.forEach(item=>{
+//         result=callback(result,item)
+//     })
+//     return result
+// }
+// let res = [1,2,3,4,5].myReduce((accum,item)=>accum+item,10)
+// console.log('res',res)  //25
+
+// TODO bind polyfill
+
+// Function.prototype.myBind = function (context, ...args) {
+//     let that=this;  //that===notBindedFunction
+//     return function (...args2) {                //замыкание - возвращаемая ф запоминает context, ...args
+//         return that.apply(context, args.concat(args2));
+//     }
+// }
+//
+// let obj = {
+//     field: 100
+// }
+//
+// function notBindedFunction(a, b) {
+//     return a + b + this.field;
+// }
+//
+// let bindedFunction = notBindedFunction.myBind(obj, 10);
+//
+// console.log('------------',bindedFunction(20));   //130
+
+// TODO create polyfill
+
+// Object.prototype.myCreate=function (proto) {
+//     let obj={};
+//     obj.__proto__=proto
+//     //Object.setPrototypeOf(obj,proto);
+// return obj;
+// }
+//
+// let animal={
+//     leg: true
+// };
+//
+// let rabbit=Object.myCreate(animal);
+//
+// console.log(rabbit.leg);//true
 
 // TODO функция groupBy из Lodash
 
@@ -1035,7 +1034,7 @@
 
 //   function reducer(state, action) {
 //     if (action.type === 'change') {
-//       return {...state, text: action.payload}
+//         state = {...state, text: action.payload}
 //     }
 //     return state
 //   }
@@ -1044,9 +1043,9 @@
 //     subscribe(callback) {
 //       subscribers.push(callback)
 //     },
-//     dispatch(action) {
+//     emit(action) {
 //       state = reducer(state, action)
-//       subscribers.forEach(subscriber => subscriber())
+//       subscribers.forEach(subscriber => subscriber(state))
 //     },
 //     getState() {
 //       return state
@@ -1059,7 +1058,7 @@
 //  const countField = document.querySelector('.countField')
 
 //  textField.addEventListener('keyup', () => {
-//   store.dispatch({type: 'change', payload: textField.value})
+//   store.emit({type: 'change', payload: textField.value})
 //  })
 
 //  store.subscribe(() => {
@@ -1220,7 +1219,7 @@
 // атрибут alt для img для ридеров даёт возможность прочитать описание картинки.
 // <header>, <nav>, <article>, <section>, <aside> и <footer>. - структурная семантика
 // текстовая семантика -- <strong><b>жирный<em><i>курсив,<ins> <u> подчеркнутый <del> <s> зачеркнутый текст <mark>-выделенный <abbr> абревеатуры
-// <pre><code>Представление фрагментов кода <cite> <q> <blockquote>цитаты
+// <pre><code>Предсткавление фрагментов кода <cite> <q> <blockquote>цитаты
 // WAI-ARIA (Web Accessibility Initiative — Accessible Rich Internet Applications) является спецификацией, которая помогает сделать веб-страницы и приложения
 //  более доступными для людей с ограниченными возможностями. В частности, WAI-ARIA помогает определить роли (что блоки содержимого делают),
 // состояния (как блоки содержимого настроены), а также дополнительные свойства для поддержки вспомогательных технологий.
@@ -1266,7 +1265,7 @@
 // function aaa() {
 //   console.log(1);
 
-//   setTimeout(() => console.log(2), 1);
+//   setTimeout(() => console.log(2), 0);
 //   setTimeout(() => console.log(3), 10);
 
 //   Promise.resolve(4).then((result) => console.log(result));
@@ -1290,8 +1289,85 @@
 //   process.nextTick(() => console.log('Hello from next tick!'));
 //   console.log("sync")
 // } 
-//sync
-//Hello from next tick!
-//Hello from immediate
-//Hello! from function
-//Hello from timeout
+//
+
+// function aa(){console.log(this)}
+// const bb=()=>{console.log(this)}
+// aa()
+// bb()
+// console.log(this)
+
+try {
+    setTimeout(() => {
+      throw new Error('Async error');
+    }, 1000);
+  } catch (e) {
+    console.log('Caught:', e);
+  }
+
+  не отловит ошибку, надо использовать промис
+
+  try {
+    await new Promise((_, reject) => {
+      setTimeout(() => {
+        reject(new Error('Async error'));
+      }, 1000);
+    });
+  } catch (e) {
+    console.log('Caught:', e);
+  }
+
+
+  function customPromiseAll(promises){
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let completedCount = 0;
+
+    promises.forEach((promise, index) => {
+      promise //можно   Promise.resolve(promise) чтоб поддерживать не промисы
+        .then((result) => {
+          results[index] = result; // Сохраняем результат в правильном порядке
+          completedCount++;
+
+          // Если все промисы завершены, разрешаем общий промис
+          if (completedCount === promises.length) {
+            resolve(results);
+          }
+        })
+        .catch((error) => {
+          // Если один из промисов отклоняется, отклоняем общий промис
+          reject(error);
+        });
+    });
+
+    // Если массив пустой, сразу разрешаем с пустым массивом
+    if (promises.length === 0) {
+      resolve([]);
+    }
+  });
+}
+
+function customPromiseRace(promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach((promise) => {
+      // Оборачиваем каждый элемент в Promise.resolve, чтобы поддерживать не-промисы
+      Promise.resolve(promise)
+        .then((result)=>{resolve(result)}) // Разрешаем, если промис выполнен, можно просто .then(resolve)
+        .catch((err)=>{reject(err)}); // Отклоняем, если промис завершился с ошибкой
+    });
+  });
+}
+
+
+function CP(promises){
+  return new Promise((resolve, reject)=>{
+
+    promises.forEach((prom)=>{
+      Promise.resolve(prom)
+      .then((result)=>{
+        resolve(result)
+      })
+      .catch((err)=>{reject(err)})
+    })
+  })
+}
